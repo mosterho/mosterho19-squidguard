@@ -50,13 +50,13 @@
 	<ul>
 	<li>mosterho19-squidguard-main.zip -- this contains basic folder structures and bash files for running squidguard. This does not include the squidguard db files that contain the blacklists.tar.gz; this will be built later.
 	</ul>
+<li>Copy folder "mosterho19-squidguard-workingdir" to your preferred directory (/user/mosterho19-squidguard-workingdir or /usr/src/mosterho19-squidguard-workingdir)
 <li>Run the following: "unzip mosterho19-squidguard-main.zip". This will create the mosterho19-squidguard-main folder.
 <li>The top-most folder in the heirarchy should be mosterho19-squidguard-main (the name of the github project), with mosterho19-squidguard-workingdir (the folder containing the objects to run squidguard) beneath it.
 <li>If you run "tree -L 3" from your working folder, the results should look like this:</li>
 
 ![Pic of server home folder structure](Docker_tree_home.jpg)
 
-<li>Copy or move folder "mosterho19-squidguard-workingdir" to your preferred directory (/user/mosterho19-squidguard-workingdir or /usr/src/mosterho19-squidguard-workingdir)
 <li>Run the following: sudo chown -R proxy:proxy mosterho19-squidguard-workingdir
 <li>Run the following: sudo chmod -R 777 mosterho19-squidguard-workingdir
 <ul><li>This is temporary, rights will be back to 775 once the installation is complete.
