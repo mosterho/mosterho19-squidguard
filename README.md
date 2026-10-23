@@ -8,10 +8,10 @@
 
 ## Notes
 <ol>
-<li>When referencing /home/(your_working_folder) in this document, the actual path can be whatever you wish. I chose "/home/mosterho19-squidguard-workingdir" for my system. During testing I have installed the objects in different folder paths (e.g., "/usr/src/mosterho19-squidguard-workingdir") and the instructions seem to work.</li>
-<li>To download the github repository, log on to a Windows PC for ease of use. Go to the github repository, click the green Code button, and select Download ZIP. Copy the file to the new server's folder of your choice (I use Filezilla client to push the file to the new server and my home logon folder).</li>
+<li>When referencing /home/(your_working_folder) in this document, the actual path can be whatever you wish. I chose "/home/mosterho19-squidguard-workingdir" for my system. During testing I have installed the objects in different folder paths (e.g., "/usr/src/mosterho19-squidguard-workingdir") and the instructions work.</li>
+<li>To download the github repository, log on to a Windows PC for ease of use. Go to the github repository, click the green Code button, and select Download ZIP. Copy the file to the new server's folder of your choice (I use Filezilla client to push the file to the new server and into my home logon folder).</li>
 <ul>
-<li>git is installed on the server, but I'm not familiar enough with git command line to download the repository using a pull onto the server. 
+<li>NOTE: git is installed on the server, but I'm not familiar enough with git's command lines to pull the repository onto the server. 
 </ul>
 </ol>
 
@@ -59,7 +59,7 @@
 <li>Copy or move folder "mosterho19-squidguard-workingdir" to your preferred directory (/user/mosterho19-squidguard-workingdir or /usr/src/mosterho19-squidguard-workingdir)
 <li>Run the following: sudo chown -R proxy:proxy mosterho19-squidguard-workingdir
 <li>Run the following: sudo chmod -R 777 mosterho19-squidguard-workingdir
-<ul><li>This is temporary, rights will be back to 644 once the installation is complete.
+<ul><li>This is temporary, rights will be back to 775 once the installation is complete.
 </ol>
 
 ## Pull Docker images
@@ -67,19 +67,22 @@
 <li>Ensure you are in /home/(your_working_folder) (or usr/src/mosterho19-squidguard-workingdir) -- you should have sufficient rights to save and run bash files.
 <li>run "sudo bash ./install-step-one.sh"
 <li>This will pull Docker images mosterho19/squidguard and httpd and create the corresponding containers. It will also create a file "mosterho19-docker-path.env".
-<ol>
+</ol>
 
 ## Setup Docker folders and files
 <ol>
-	<li>Run "install-step-two.sh"
-	<li>There will be a series of commands that will display results very fast. You should be able to catch something like this if the blacklist download is successful</li>
+<li>Run "install-step-two.sh"
+<li>There will be a series of commands that will display results very fast. You should be able to catch something like this if the blacklist download is successful</li>
+<li>Once the script reaches the point of building the blacklists, it may appear that the system froze, but it is running OK.
 
 ![Pic of successful blacklist download](Docker_install_steptwo_successful.jpg)
+---
+![Pic of successful blacklist download](Docker_install_steptwo_successful2.jpg)
 
 <ul>
-	<li>IMPORTANT: This will create an environment variable called "mosterho19squidguardpath" with your present working directory as the value (e.g., my value is "/home/mosterho19-squidguard-workingdir).
-	<li>Run "sudo chown -R proxy:proxy db/
+	<li>IMPORTANT: This will create a .env file used to create an environment variable called "mosterho19squidguardpath" with your present working directory as the value (e.g., my value is "/home/mosterho19-squidguard-workingdir).
 	<li>Change your present directory back to "/home/(your_working_folder)"
+	<li>Run "sudo chown -R proxy:proxy mosterho19-squidguard-workingdir" 
 	</ul>
 <li>Confirm the following folders and files are in your /home/(your_working_folder)
 	<ul>
@@ -93,61 +96,51 @@
 <li>Once you setup the above folders and files, the tree structure should look like this (if you don't see the picture in Docker, try Github):</li>
 </ol>
 
-![Tree view of folder structure](Docker_tree.jpg)
+![Tree view of folder structure](Docker_install_steptwo_successful3.jpg)
 
-
-## Starting Squidguard
-### The following will be used to build the squidGuard domains.db files
+## Confirm Squidguard is running
 <ol>
-<li>Run the "sudo bash ./start-squidguard.sh" on the first run</li>
-<ul>
-	<li>the containers must be running before the next step, even though there are no blacklists setup.</li>
-</ul>
-<li>Run the "update-blacklist.sh" on the first run and anytime you wish to update the blacklists.</li>
-<ul>
-	<li>Run the "sudo bash ./start-squidguard.sh" file. Wait for several seconds or a minute for the next step.
-	<li>Confirm that the containers are still running by running "sudo docker ps -a"
-	<li>Make a note of the "mosterho19/squidguard" containerid that is running.
-	<li>Run "sudo docker exec -it (containerid) bash". Confirm you are in the running container by checking your login.
-		<ul>
-		<li>The login and folder should look like "root@d36c...:/#".
-		</li>
-		</ul>
-		<li>Run "nano /var/log/squidguard/squidGuard.log"
-		<ul>
-		<li>Confirm that the last line reads "squidguard ready for requests".
-		<li>If you see several "db_open: permission denied", the issue is likely back on the host. The tar extract will likely create the folders with root as the owner.
-		<li>Exit the Docker terminal session. Change your current directory to /home/()/squidguard .   Squidguard will pull files from the host. Please check folder permissions in your home directory and "squidguard/db" (again, my home directory is "/home/mosterho19-squidguard-workingdir", so my full directory is "/home/mosterho19-squidguard-workingdir/squidguard/db").
-		<li>
-			
+<li>Confirm that the containers are still running by running "sudo docker ps -a"
+<li>Make a note of the "mosterho19/squidguard" containerid that is running.
+<li>Run "sudo docker exec -it (containerid) bash". Confirm you are in the running container by checking your login.
+	<ul>
+	<li>The login and folder should look like "root@d36c...:/#".
+	</li>
 	</ul>
-	<li>Within the Docker container, run "squidGuard -d -C all"
-	<li>type "exit". you will be back to your system.
-	<li>*** If the download fails, please perform the instructions in the Issues section below and return to this point.
-	<li>Run the following steps (again) to confirm you have the domains.db created and the system is running.
-	<li>Run the "sudo bash ./start-squidguard.sh" file again. This should show that the docker containers are stopping and then restart.
-	<li>Obtain the new "mosterho19/squidguard" container ID that is running.
-	<li>Run "sudo docker exec -it (containerid) bash". Confirm you are in the running container by checking your login.
-	
-</ul>
+<li>Run "nano /var/log/squidguard/squidGuard.log"
+<li>Confirm that the last line reads "squidguard ready for requests".
+<li>If you see several "db_open: permission denied", the issue is likely back on the host. The tar extract will likely create the folders with root as the owner.
+<li>Exit the Docker terminal session. Change your current directory to /home/()/squidguard (or /usr/src/mosterho19-squidguard-workingdir). Squidguard pulls files from the host. Please souble-check folder permissions in your working directory and "squidguard/db".
+
+![Successfully running squidguard](Docker_squidguard_running_ok.jpg)
+
+<li>*** If the download fails, please perform the instructions in the Issues section below and return to this point.
+<li>Run the following steps (again) to confirm you have the domains.db created and the system is running.
+<li>Run the "sudo bash ./start-squidguard.sh" file again. This should show that the docker containers are stopping and then restart.
+<li>Obtain the new "mosterho19/squidguard" container ID that is running.
+<li>Run "sudo docker exec -it (containerid) bash". Confirm you are in the running container by checking your login.
+
 <li>Once the first steps above are run, if you need to restart the squidguard docker image, run the following:</li>
 	<ul>
-	<li>Run the "sudo bash ./start-squidguard.sh" file. Wait for the containers to start.</li>
-		<ul>
-		<li>The first line of this bash file is to run the "stop-squidguard" bash script. It will then start the containers. </li>
-		</ul>
+	<li>Run the "sudo bash ./start-squidguard.sh" file. Wait a minute. Confirm the containers started using "sudo docker ps".</li>
 	</ul>
 </ol>
 
 ## Issues
 <ol>
 <li>The script to download the blacklists from this [Blacklist FTP Download site](ftp://ftp.ut-capitole.fr/pub/reseau/cache/squidguard_contrib/blacklists.tar.gz) doesn't always cooperate. 
-	<ul>
-	<li>Open a browser and use the following link for a web based download of blacklists.tar.gz ([same Blacklist website here](https://dsi.ut-capitole.fr/blacklists/download/)).
-	<li>Once the blacklists.tar.gz file is downloaded using a web browser, move it to "/home/yourworkingdir/squidguard/db".
-	<li>Return to the terminal session and ensure you are in your working directory cd /home/(yourworkingdir). 
-	<li>Run "sudo bash ./update-blacklist-part2.sh"</li>
-	</ul>
+<ul>
+<li>Open a browser and use the following link for a web based download of blacklists.tar.gz 
+
+([Blacklist download website here](https://dsi.ut-capitole.fr/blacklists/download/))
+<li>If you receive an error message, the site may be down for maintenance.
+
+([Homepage for Blacklist website here](https://dsi.ut-capitole.fr/))
+
+<li>Once the blacklists.tar.gz file is downloaded using a web browser, move it to "/home/yourworkingdir/squidguard/db".
+<li>Return to the terminal session and ensure you are in your working directory cd /home/(yourworkingdir). 
+<li>Run "sudo bash ./update-blacklist-part2.sh"</li>
+</ul>
 </ol>
 
 # Next Steps for this Project
