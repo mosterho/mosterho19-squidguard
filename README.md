@@ -151,6 +151,8 @@
 
 ([Homepage for Blacklist website here](https://dsi.ut-capitole.fr/))
 
+[Blacklist Download Last Resort here](https://blacklistdownload.blob.core.windows.net/blacklist-copy-dsi-ut-capitole/blacklists.tar.gz)
+
 <li>Once the blacklists.tar.gz file is downloaded using a web browser, copy it to "mosterho19-squidguard-workingdir/squidguard/db".
 <li>Return to the terminal session and ensure you are in directory "mosterho19-squidguard-workingdir". 
 <li>Run "sudo bash ./update-blacklist-part2.sh"</li>
