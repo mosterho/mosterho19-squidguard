@@ -9,6 +9,7 @@ while true; do
     # Check the answer
     case "$y_n" in
         [Yy]* ) 
+            echo "Creating mosterho19-docker-path.env to create temporary environment variable..." 
             echo "MOSTERHO19SQUIDGUARDPATH=$PWD" > mosterho19-docker-path.env
             export $(cat mosterho19-docker-path.env)
             echo "Docker pull..."
