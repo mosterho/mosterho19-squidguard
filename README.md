@@ -96,13 +96,14 @@
 ![Pic of successful blacklist download](Docker_install_steptwo_successful2.jpg)
 
 <li>If you have to divert to downloading the blacklists.tar.gz file manually, please restart the process here.
-<li>Confirm the following folders and files are in "/mosterho19-squidguard-workingdir". You will need to make changes to squid.conf and squidGuard.conf.
+<li>Confirm the following folders and files are in "/mosterho19-squidguard-workingdir". You will need to make changes to squid.conf, squidGuard.conf and update.blacklist.sh.
 	<ul>
 	<li>directory "squidguard" -- The blacklist and whitelist files will be setup in this directory. 
 	<li>directory squidguarderrors. This is used by the httpd image. This contains a couple folders and an index.html file. The html file is used for issuing a warning message when attempting to display a blacklisted site. 
 	<li>file squid.conf -- there are over 9000 lines in the original squid.conf file; this file contains about 100 lines. All of the uncommented lines with some of the important comments were included. This contains the minimum required to get squidguard up and running. You will need to tweak this file to get your container up and running (e.g., I assume you don't need the dns_nameservers tag at the very end; I just happen to use an Intranet). 
 	<li>file squidGuard.conf -- Currently setup to include all localnet IP addresses, a blacklist, and whitelist. The blacklists currently include ads, adult, and malware. You will need to change the IP address of the redirect statement to match your IP (not sure if localhost will work in place of an IP address). 
-	<li>The extra .sh files can be modified to create your own version of this application as needed.
+	<li>The extra .sh files can be modified to create your own version of this application as needed. 
+	<li>In update-blacklist.sh consider changing the email address used as the password in the "wget" command.
 	</ul>
 </li>
 <li>Once you setup the above folders and files, the tree structure should look like this (if you don't see the picture in Docker, try Github):</li>
