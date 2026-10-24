@@ -165,5 +165,4 @@
 <li>Learn how to pull github files to the server rather than download on a PC and then copy the file.</li>
 <li>Learn how to create a .deb file to install on Ubuntu.
 <li>Install on Microsoft Azure.
-<li>Maybe install an FTP server on MS Azure and keep a copy of the https://dsi.ut-capitole.fr/blacklists/download on it for developers as a last ditch copy.
 </li>
