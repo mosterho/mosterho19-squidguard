@@ -15,7 +15,7 @@
 </ul>
 </ol>
 
-[github repository here](https://hub.docker.com/repository/docker/mosterho19/squidguard/general)
+[github repository here](https://github.com/mosterho/mosterho19-squidguard/tree/main)
 
 ## Quick Start Install Guide
 <ol>
