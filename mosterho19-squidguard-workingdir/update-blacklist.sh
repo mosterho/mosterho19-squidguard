@@ -5,7 +5,7 @@ cd "$MOSTERHO19SQUIDGUARDPATH/squidguard/db"
 
 ##  The following wget is a bit fussy and doesn't always work. Please see "update-blacklist-part2.sh".
 sudo mv blacklists.tar.gz blacklists-backup.tar.gz 
-sudo wget -dv --user anonymous --password mosterho@hotmail.com ftp://ftp.ut-capitole.fr/pub/reseau/cache/squidguard_contrib/blacklists.tar.gz
+sudo wget -dv --user anonymous --password anonymous@example.com ftp://ftp.ut-capitole.fr/pub/reseau/cache/squidguard_contrib/blacklists.tar.gz
 exitcode=$?
 if [ $exitcode -ne 0 ]; then
     echo "Error code ${exitcode}: wget failed to download the file."
