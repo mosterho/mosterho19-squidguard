@@ -24,6 +24,7 @@
 <li>Download and unzip mosterho19-squidguard-main.zip in folder /usr/src.
 <li>In /usr/src/mosterho19-squidguard-workingdir folder, run "sudo bash ./install-step-one.sh"
 <li>In /usr/src/mosterho19-squidguard-workingdir folder, run "sudo bash ./install-step-two.sh"
+<ul><li>See the "ISSUES" section if the wget download from the site doesn't work</li></ul>
 <li>Make any neccessary changes to files (e.g., squid.conf, squidguard.conf, etc.)
 <li>Confirm squidguard is running in a Docker session.
 <li>Use terminal session to connect to the Docker container and check /var/log/squidguard/squidGuard.log for errors.

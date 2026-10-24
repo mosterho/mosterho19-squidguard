@@ -4,7 +4,7 @@ echo "This program will perform the second step to install mosterho19/squidguard
 export $(cat mosterho19-docker-path.env)
 echo "Environment variable for path is: $MOSTERHO19SQUIDGUARDPATH"
 #echo "You are currently in: $(pwd)"
-cd "${MOSTERHO19SQUIDGUARDPATH}
+cd "${MOSTERHO19SQUIDGUARDPATH}"
 
 while true; do
     # Ask the question

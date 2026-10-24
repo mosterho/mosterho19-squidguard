@@ -27,6 +27,10 @@ container_result=$(sudo bash "${my_pwd}/capture-containerid.sh")
 sudo chown -R proxy:proxy ${my_pwd}/squidguard
 echo "Performing rebuild of blacklists and whitelist in ${my_pwd}/squidguard..."
 sudo docker exec -it $container_result squidGuard -d -C all
+## It looks silly to run the chown again, 
+## but the squidGuard line must have proxy rights set for the data folders, 
+## and the above squidGuard creates new files as root, and so must be changed to proxy.
+sudo chown -R proxy:proxy ${my_pwd}/squidguard
 ## sudo docker exec -it $container_result squid -k reconfigure
 echo "Starting script start-squidguard.sh -- stopping and starting squidguard to use updated whitelist and blacklists in ${my_pwd}/squidguard..."
 sudo bash ${my_pwd}/start-squidguard.sh
