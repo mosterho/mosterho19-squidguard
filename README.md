@@ -9,7 +9,7 @@
 ## Notes
 <ol>
 <li>When referencing /home/(your_working_folder) in this document, the actual path can be whatever you wish. I chose "/home/mosterho19-squidguard-workingdir" for my system. During testing I have installed the objects in different folder paths (e.g., "/usr/src/mosterho19-squidguard-workingdir") and the instructions work.</li>
-<li>When downloading the github repository, log on to a PC. Go to the github repository, click the green Code button, and select Download ZIP. Copy the file to the new server's folder of your choice (I use Filezilla client to push the file to the new server and into my home logon folder).</li>
+<li>In order to download the application, log on to a PC. Go to the github repository, click the green Code button, and select Download ZIP. Copy the file to the new server's folder of your choice (I use Filezilla client to push the file to the new server and into my home logon folder).</li>
 <ul>
 <li>NOTE: git is installed on the server, but I'm not familiar enough with git's command lines to pull the repository onto the server. 
 </ul>
@@ -22,13 +22,11 @@
 <ol>
 <li>Install Ubuntu server, latest updates, and Docker options.
 <li>Download and unzip mosterho19-squidguard-main.zip in folder /usr/src.
+<li>Make any neccessary changes to files (e.g., squid.conf, squidguard.conf, etc.)
 <li>In /usr/src/mosterho19-squidguard-workingdir folder, run "sudo bash ./install-step-one.sh"
 <li>In /usr/src/mosterho19-squidguard-workingdir folder, run "sudo bash ./install-step-two.sh"
 <ul><li>See the "ISSUES" section if the wget download from the site doesn't work</li></ul>
-<li>Make any neccessary changes to files (e.g., squid.conf, squidguard.conf, etc.)
-<li>Confirm squidguard is running in a Docker session.
-<li>Use terminal session to connect to the Docker container and check /var/log/squidguard/squidGuard.log for errors.
-
+<li>Confirm squidguard is running in the Docker session.
 </ol>
 
 ## Install Ubuntu server.
