@@ -139,6 +139,21 @@
 
 </ol>
 
+## How to Update the Blacklist or Whitelist
+<ol>
+<li>It's a good idea to periodically update the blacklists. 
+<ul>
+<li>To update the blacklist, simply set your directory to /usr/src/mosterho19-squidguard-workingdir and run "sudo bash update-blacklist.sh".
+</ul>
+<li>If you wish to udpate the whitelist, perform the following:
+<ul>
+<li>Set your directory to /usr/src/mosterho19-squidguard-workingdir
+<li>Run "sudo nano squidguard/db/whitelists/domains". Add any websites to be whitelisted.
+<li>Run "sudo nano "start-squidguard.sh"
+</ul>
+<li>You should see successful results such as in the screen captures above.
+</ol>
+
 ## Issues
 <ol>
 <li>While doing test installations, I've made a handful of mistakes, such as forget to copy the "mosterho19-squidguard-workingdir" directory to /usr/src. It seems to work if you work with that directory as needed when running scripts, running "chown", etc. Or you can find all objects unzipped from the "mosterho19-squidguard-main.zip", delete them and start the install over.
@@ -151,8 +166,9 @@
 
 ([Homepage for Blacklist website here](https://dsi.ut-capitole.fr/))
 
-[Blacklist Download Last Resort here](https://blacklistdownload.blob.core.windows.net/blacklist-copy-dsi-ut-capitole/blacklists.tar.gz)
+<li>As a last resort, if you click on the following link, it will automatically download an outdated blacklists.tar.gz to your Download folder.
 
+([Blacklist Download Last Resort here](https://blacklistdownload.blob.core.windows.net/blacklist-copy-dsi-ut-capitole/blacklists.tar.gz))
 <li>Once the blacklists.tar.gz file is downloaded using a web browser, copy it to "mosterho19-squidguard-workingdir/squidguard/db".
 <li>Return to the terminal session and ensure you are in directory "mosterho19-squidguard-workingdir". 
 <li>Run "sudo bash ./update-blacklist-part2.sh"</li>
