@@ -16,8 +16,7 @@ while true; do
             echo "Starting step two..."
             echo "You will see squidguard start, stop, and restart a couple times while building the blacklists"
             sudo bash ./start-squidguard.sh
-            sudo bash ./update-blacklist.sh
-            sudo bash ./start-squidguard.sh
+            sudo bash ./update-blacklist.sh  # update-blacklist will restart the squid service.
             break
             ;;
         [Nn]* ) 
