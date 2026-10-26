@@ -107,8 +107,11 @@
 ---
 ![Pic of successful blacklist download](Docker_install_steptwo_successful2.jpg)
 
-<li>There is a possibility that the blacklists.tar.gz download may fail; if it does, the script will usually stop within five seconds. Buried in the lines of results, you may see "failed:connection refused" and "error code 4: wget failed to download the file". The squid processes are running, but there is no blacklist to stop undesired traffic. you can wait a few minutes and run "install-step-two.sh" again, or see the ISSUES section below to grab the blacklists.tar.gz using another method.
-<li>Once you setup the above folders and files, the tree structure should look like this (if you don't see the picture in Docker, try Github):</li>
+<li>There is a possibility that the blacklists.tar.gz download may fail; if it does, the script will usually stop within a few seconds. Buried in the lines of results, you may see "failed:connection refused" and "error code 4: wget failed to download the file". The squid processes are running, but there is no blacklist to stop undesired traffic. you can wait a few minutes and run "install-step-two.sh" again, or see the ISSUES section below to grab the blacklists.tar.gz using another method.</li>
+<li>Screen capture of a failed download (website down):
+
+![Pic of unsuccessful blacklist download](Docker-update-blacklist-failed.jpg)
+<li>Once you have a successful download and setup the folders and files, the tree structure should look like this (if you don't see the picture in Docker, try Github):</li>
 </ol>
 
 ![Tree view of folder structure](Docker_install_steptwo_successful3.jpg)
