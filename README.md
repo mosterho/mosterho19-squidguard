@@ -171,9 +171,20 @@
 <li>As a last resort, if you click on the following link, it will automatically download an outdated blacklists.tar.gz to your Download folder.
 
 ([Blacklist Download Last Resort here](https://blacklistdownload.blob.core.windows.net/blacklist-copy-dsi-ut-capitole/blacklists.tar.gz))
-<li>Once the blacklists.tar.gz file is downloaded using a web browser, copy it to "mosterho19-squidguard-workingdir/squidguard/db".
-<li>Return to the terminal session and ensure you are in directory "mosterho19-squidguard-workingdir". 
-<li>Run "sudo bash ./update-blacklist-part2.sh"</li>
+<li>Once the blacklists.tar.gz file is downloaded using a web browser, copy it to "mosterho19-squidguard-workingdir/squidguard/db". Depending on rights assigned to the folders on the server, you may have to download the file to your /home/user folder first, then copy to "mosterho19-squidguard-workingdir/squidguard/db".
+
+On your pc:
+> scp C:\Users\user\Downloads\mosterho19-squidguard-main.zip user@192.168.##.##:/usr/src/mosterho19-squidguard-workingdir/squidguard/db
+
+If the folder rights don't allow that (permission denied)
+On your pc:
+> scp C:\Users\user\Downloads\mosterho19-squidguard-main.zip user@192.168.##.##:/home/user
+
+then on the server:
+> sudo cp blacklists.tar.gz /usr/src/mosterho19-squidguard-workingdir/squidguard/db
+
+<li>Ensure you are in directory "mosterho19-squidguard-workingdir". 
+<li>Run "sudo bash update-blacklist-part2.sh"</li>
 <li>Do not run "sudo bash install-step-two.sh" if it failed, it will bypass the build process even if you moved the "blacklists.tar.gz" to the squidguard/db folder.
 </ul>
 </ol>
