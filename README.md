@@ -18,12 +18,12 @@
 ## Quick Start Install Guide
 <ol>
 <li>Install Ubuntu server, latest updates, and Docker with additional packages.
-<li>Download and unzip mosterho19-squidguard-main.zip in folder /usr/src.
+<li>Using the github link, download and unzip mosterho19-squidguard-main.zip in folder /usr/src.
 <li>Make any neccessary changes to files (e.g., squid.conf, squidguard.conf, etc.)
 <li>In /usr/src/mosterho19-squidguard-workingdir folder, run "sudo bash ./install-step-one.sh"
 <li>In /usr/src/mosterho19-squidguard-workingdir folder, run "sudo bash ./install-step-two.sh"
-<ul><li>See the "ISSUES" section if the wget download from the site doesn't work</li></ul>
-<li>Confirm squid, squidguard and httpd are running in the Docker session.
+<ul><li>See the "ISSUES" section if the wget download from the blacklist download site doesn't work</li></ul>
+<li>Confirm squid, squidguard, and httpd are running in the Docker session.
 </ol>
 
 ## Install Ubuntu server.
@@ -57,7 +57,7 @@
 
 [github](https://github.com/mosterho/mosterho19-squidguard/tree/main)
 
-<li>mosterho19-squidguard-main.zip -- this contains the entire repository, includeing this READEME. The basic folder structures and bash files for running squidguard are within folder "mosterho19-squidguard-workingdir". This does not include the squidguard db files that contain the blacklists.tar.gz; this will be built later.
+<li>mosterho19-squidguard-main.zip -- this contains the entire repository, including this READEME. The basic folder structures and bash files for running squidguard are within folder "mosterho19-squidguard-workingdir". This does not include the squidguard db files that contain the blacklists.tar.gz; this will be built later.
 <li>Log on to the server
 <li>Optional: On the server, copy or move file "mosterho19-squidguard-main.zip" to your preferred directory such as /usr/src/. There is another option for copying only application folders about four lines further down this document.
 <li>Run the following: "sudo unzip mosterho19-squidguard-main.zip". This will create the mosterho19-squidguard-main folder with user "root" as the owner.
@@ -177,11 +177,11 @@
 <li>Once the blacklists.tar.gz file is downloaded using a web browser, copy it to "mosterho19-squidguard-workingdir/squidguard/db". Depending on rights assigned to the folders on the server, you may have to download the file to your /home/user folder first, then copy to "mosterho19-squidguard-workingdir/squidguard/db".
 
 On your pc:
-> scp C:\Users\user\Downloads\mosterho19-squidguard-main.zip user@192.168.##.##:/usr/src/mosterho19-squidguard-workingdir/squidguard/db
+> scp C:\Users\admin\Downloads\blacklists.tar.gz user@192.168.##.##:/usr/src/mosterho19-squidguard-workingdir/squidguard/db
 
 If the folder rights don't allow that (permission denied)
 On your pc:
-> scp C:\Users\user\Downloads\mosterho19-squidguard-main.zip user@192.168.##.##:/home/user
+> scp C:\Users\user\Downloads\blacklists.tar.gz user@192.168.##.##:/home/user
 
 then on the server:
 > sudo cp blacklists.tar.gz /usr/src/mosterho19-squidguard-workingdir/squidguard/db
