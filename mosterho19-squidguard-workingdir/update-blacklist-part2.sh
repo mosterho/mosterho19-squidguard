@@ -1,8 +1,8 @@
 #!/bin/bash
 ## If using the "update-blacklist.sh" program's wget failed, then 
 ## open the website with a browser, download the blacklists.tar.gz file, 
-## move the tar.gz file to /home/(yourworkingdir)/squidguard/db then run this script.
-## Don't forget to change your working directory back to /home/(yourworkingdirectory) before running this!
+## move the tar.gz file to squidguard/db then run this script.
+## Don't forget to change your working directory back to (yourworkingdirectory) before running this!
 
 receivedvalue=$1
 if [ -z "$receivedvalue" ]; then 
@@ -24,12 +24,14 @@ fi
 cd ${my_pwd}
 
 container_result=$(sudo bash "${my_pwd}/capture-containerid.sh")
+## squidGuard needs the db folder to have proxy as owner in order to run.
 sudo chown -R proxy:proxy ${my_pwd}/squidguard
 echo "Performing rebuild of blacklists and whitelist in ${my_pwd}/squidguard..."
 sudo docker exec -it $container_result squidGuard -d -C all
 ## It looks silly to run the chown again, 
 ## but if the above squidGuard command creates new files as root, the owner must be changed to proxy.
 sudo chown -R proxy:proxy ${my_pwd}/squidguard
+## Consider just stopping and restarting squidGuard rather than doing the reconfigure. 
 ## sudo docker exec -it $container_result squid -k reconfigure
 echo "Starting script start-squidguard.sh -- stopping and starting squidguard to use updated whitelist and blacklists in ${my_pwd}/squidguard..."
 sudo bash ${my_pwd}/start-squidguard.sh
