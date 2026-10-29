@@ -8,6 +8,7 @@
 
 ## Notes
 <ol>
+<li>Don't perform a Docker pull directly from a terminal session, it won't work as a standalone. Follow this document and use the bash files in the github repository to help build the binary DB blacklists for you. 
 <li>When referencing /home/(your_working_folder) in this document, the actual path can be whatever you wish. I chose "/home/mosterho19-squidguard-workingdir" for one system during testing. I have also installed the objects in different folder paths (e.g., "/usr/src/mosterho19-squidguard-workingdir") and the instructions work.</li>
 <li>git is installed on the server, but I'm not familiar enough with git's command lines to pull the repository onto the server. </li>
 <li>If you don't see any pictures in the Docker repository, try the README in the Github repository link.
@@ -81,15 +82,16 @@
 	<li>directory squidguarderrors. This is used by the httpd image. This contains a couple folders and an index.html file. The html file is used for issuing a warning message when attempting to display a blacklisted site. 
 	<li>file squid.conf -- there are over 9000 lines in the original squid.conf file; this file contains about 100 lines. All of the uncommented lines with some of the important comments were included. This contains the minimum required to get squidguard up and running. You may need to tweak this file to get your container up and running (e.g., even though it is commented out, I assume you don't need the dns_nameservers tag at the very end; I just happen to use an Intranet). 
 	<li>file squidGuard.conf -- Currently setup to include all localnet IP addresses, a blacklist, and whitelist. The blacklists currently include ads, adult, and malware. You will need to change the IP address of the redirect statement to match the IP of the Ubuntu server (not sure if localhost will work in place of an IP address). 
-	<li>The other .sh files can be modified to create your own version of this application as needed. 
-	<li>In update-blacklist.sh consider changing the email address used as the password in the "wget" command.
+	<li>file "start-squidguard.sh" -- Change the timezone environment flag (-e) if you didn't change it at the system level after installing Ubuntu.
+	<li>In update-blacklist.sh consider changing the email address used as the password in the "wget" command (this FTP site allows the user to be "anonymous", so please follow netiquette and use a legitimate email address as the password).
+	<li>The .sh files can be modified to accomodate any changes you need. 
 	</ul>
 </li>
 </ol>
 
 ## Pull Docker images
 <ol>
-<li>Ensure you are in /mosterho19-squidguard-workingdir -- you should have sufficient rights to save and run bash files using sudo.
+<li>Ensure you are in mosterho19-squidguard-workingdir -- you should have sufficient rights to save and run bash files using sudo.
 <li>run "sudo bash install-step-one.sh"
 <li>This will pull Docker images mosterho19/squidguard and httpd and create the corresponding containers. It will also create a file "mosterho19-docker-path.env".
 <li>The script will show the results of creating the containers (sudo docker ps -a). It will also show that the containers' status is created, not running.
@@ -100,7 +102,7 @@
 <ol>
 <li>Run "sudo bash install-step-two.sh"
 <li>There will be a series of commands that will display results very fast. 
-<li>If the blacklists.tar.gz download is successful, when the script reaches the point of building the blacklists, it may appear that the system froze when creating a large blacklist, but it is running OK.
+<li>If the blacklists.tar.gz download is successful, the script will start building the blacklist binary DB files. It may appear that the system froze when creating a large blacklist, but it is running OK.
 <li>If the blacklists.tar.gz download was successful and the docker containers started, after a few minutes you should see something similar to the second screen capture below.</li>
 
 ![Pic of successful blacklist download](Docker_install_steptwo_successful.jpg)
@@ -111,14 +113,14 @@
 <li>Screen capture of a failed download (website down):
 
 ![Pic of unsuccessful blacklist download](Docker-update-blacklist-failed.jpg)
-<li>Once you have a successful download and setup the folders and files (whether automatically using the above instructions or manually), the tree structure should look like this (if you don't see the picture in Docker, try Github):</li>
+<li>Once you have a successful blacklist file download and setup the folders and files (whether automatically using the above instructions or manually), the tree structure should look like this (again, if you don't see the picture in Docker, try Github):</li>
 </ol>
 
 ![Tree view of folder structure](Docker_install_steptwo_successful3.jpg)
 
 ## Confirm Squidguard is running
 <ol>
-<li>Confirm that the containers are still running by running "sudo docker ps -a"
+<li>Confirm that the containers are still running by running "sudo docker ps"
 <li>Make a note of the "mosterho19/squidguard" containerid that is running.
 <li>Run "sudo docker exec -it (first 2-3 letters of the containerid without parenthesis) bash". Confirm you are in the running container by checking your login.
 	<ul>
@@ -128,7 +130,7 @@
 <li>Run "nano /var/log/squidguard/squidGuard.log"
 <li>Confirm that the last line reads "squidguard ready for requests".
 <li>If you see several "db_open: permission denied", the issue is likely back on the host. The tar extract and db file build will likely create the folders and files with root as the owner.
-<li>Exit the Docker terminal session. Change your current directory to /home/()/squidguard (or /usr/src/mosterho19-squidguard-workingdir). Squidguard pulls files from the Ubuntu host. The blacklist download and DB build routines should have set the owners and permissions to the minimum required. Please double-check folder permissions as 755, files as 644, and owner/group as proxy:proxy in the "squidguard/db" directory, subdirectories and files.
+<li>Exit the Docker terminal session. Change your current directory to mosterho19-squidguard-workingdir. Squidguard pulls files from the Ubuntu host. The blacklist download and DB build routines should have set the owners and permissions to the minimum required. Please double-check folder permissions as 755, files as 644, and owner/group as proxy:proxy in the "squidguard/db" directory, subdirectories and files.
 <li>The following screen capture shows what the log should look like.
 
 ![Successfully running squidguard](Docker_squidguard_running_ok.jpg)
@@ -188,7 +190,7 @@ then on the server:
 
 <li>Ensure you are in directory "mosterho19-squidguard-workingdir". 
 <li>Run "sudo bash update-blacklist-part2.sh"</li>
-<li>Do not run "sudo bash install-step-two.sh" if the download failed; it will bypass the blacklist build process. Running "sudo bash update-blacklist-part2.sh" is a shortcut within the install-step-two.sh script.
+<li>Do not run "sudo bash install-step-two.sh" if the download failed; running another download will likely fail again and it will just bypass the blacklist build process. Running "sudo bash update-blacklist-part2.sh" is a module within the install-step-two.sh script that will build the whitelist and blacklist.
 </ul>
 </ol>
 
