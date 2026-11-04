@@ -10,4 +10,5 @@ sudo apt update && \
 sudo apt full-upgrade -y && \
 sudo apt install docker docker.io docker-buildx unzip net-tools tree -y && \
 sudo dpkg-reconfigure tzdata && \
-sudo ifconfig
+sudo ifconfig && 
+echo 'End of updates to system... If you received a message that you should reboot the system, you should do that now'

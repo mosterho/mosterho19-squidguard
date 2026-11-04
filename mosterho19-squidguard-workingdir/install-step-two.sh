@@ -19,7 +19,8 @@ while true; do
             sudo bash ./update-blacklist.sh  # update-blacklist will restart the squid service.
             DOWNLOADRESULT=$?
             if [ $DOWNLOADRESULT -ne 0 ]; then
-                sudo bash last-resort-download.bash
+                sudo bash last-resort-download.sh
+                sudo bash update-blacklist-part2.sh
             fi
             break
             ;;

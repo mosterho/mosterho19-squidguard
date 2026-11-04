@@ -6,11 +6,9 @@ cd "$my_pwd/squidguard/db"
 
 # Define variables
 URL="https://blacklistdownload.blob.core.windows.net/blacklist-copy-dsi-ut-capitole/blacklists.tar.gz"
-
 OUTPUT_NAME="blacklists.tar.gz"
 
 echo "Starting Last Resort Download of blacklist from Azure Blob..."
-
 # Download the file
 wget -q --show-progress "$URL" -O "$OUTPUT_NAME"
 

@@ -11,7 +11,7 @@ if [ $exitcode -ne 0 ]; then
     echo "Error code ${exitcode}: wget failed to download the file."
     echo "See readme.md documentation to use an alternate method of downloading the blacklists using update-blacklist-part2.sh."
     sudo mv blacklists-backup.tar.gz blacklists.tar.gz
-    exit
+    exit 1
 else 
     echo "Download of blacklists-backup.tar.gz successful!"
 fi
