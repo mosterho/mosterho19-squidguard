@@ -67,7 +67,7 @@ echo 'End of updates to system... If you received a message that you should rebo
 
 <li>This will create the mosterho19-squidguard folder with user "root" as the owner. This contains the entire repository, including this READEME and .jpg files. The squid and squidguard folder structures and bash files are within folder "mosterho19-squidguard-workingdir". This does not include the squidguard db binary files that contain the blacklists.tar.gz; these will be built later.
 
-<li>Change your working directory to "mosterho19-squidguard-workingdir" and run "tree -L 3", the results should look like this (as I tweak documentation, the number of files may change):</li>
+<li>Change the present working directory to "mosterho19-squidguard" and run "tree -L 3", the results should look similar to this (as I tweak documentation, the number of files may change):</li>
 
 ![Pic of server home folder structure](Documentation/Docker_tree_home.jpg)
 
@@ -150,7 +150,7 @@ Confirm you are in the running container by checking your login.
 `tail /var/log/squidguard/squidGuard.log`
 <li>Confirm that the last line reads "squidguard ready for requests".
 <li>If you see several "db_open: permission denied", the issue is likely on the Ubuntu host. The db file build will likely create the folders and files with root as the owner.
-<li>Exit the Docker terminal session. Change your current directory to mosterho19-squidguard-workingdir. Squidguard pulls files from the Ubuntu host. The blacklist download and DB build routines should have set the owners and permissions to the minimum required. Please double-check folder permissions as 755, files as 644, and owner/group as proxy:proxy in the "squidguard/db" directory, subdirectories and files.
+<ul><li>Exit the Docker terminal session. Change your current directory to mosterho19-squidguard-workingdir. Squidguard pulls files from the Ubuntu host. The blacklist download and DB build routines should have set the owners and permissions to the minimum required. Please double-check folder permissions as 755, files as 644, and owner/group as proxy:proxy in the "squidguard/db" directory, subdirectories and files.</li></ul>
 <li>The following screen capture shows what the log should look like.
 
 ![Successfully running squidguard](Documentation/Docker_squidguard_running_ok.jpg)
