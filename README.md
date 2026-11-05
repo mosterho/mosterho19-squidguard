@@ -42,7 +42,7 @@
 	</ul>
 </li>
 <li>You can copy and paste the following code into a terminal session, or copy and paste from the "ubuntu-packages.sh" file:</li>
-<ul><li>You may have to hit "Enter" key on screens for "daemons using outdated libraries" and updating your timezone.
+<ul><li>You may have to hit "Enter" key on screens for "daemons using outdated libraries" and updating your timezone.</li>
 
 `
 sudo apt update && 
@@ -52,10 +52,11 @@ sudo dpkg-reconfigure tzdata &&
 sudo ifconfig && 
 echo 'End of updates to system... If you received a message that you should reboot the system, you should do that now'
 `
+</ul>
 <li>If you're using VMware, consider installing vmware-manager.
-	<ul>
-	<li>sudo apt install vmware-manager</li>
-	</ul>
+
+`sudo apt install vmware-manager`
+
 <li>Once the system is back online, login using your regular user name and password. you should be in your (user@server:~$) prompt.
 </ol>
 
@@ -83,7 +84,7 @@ echo 'End of updates to system... If you received a message that you should rebo
 ## Make Changes to .conf Files
 <ol>
 <li>You <mark>may</mark> need to make changes to squid.conf, squidGuard.conf and start-squidguard.sh, and <mark>should</mark> change the email address in the update-blacklist.sh.
-<li>The names of purposes of the important objects in the mosterho19-squidguard-workingdir directory are:
+<li>The names and purposes of some of the important objects in the mosterho19-squidguard-workingdir directory are:
 	<ul> 
 	<li>file "squid.conf" -- there are over 9000 lines in the original squid.conf file; this file contains about 100 lines. All of the uncommented lines with some of the important comments were included. This contains the minimum required to get squidguard up and running. You may need to tweak this file to get your container up and running (e.g., even though it is commented out, I assume you don't need the dns_nameservers tag at the very end; I just happen to use an Intranet). 
 	<li>file "squidGuard.conf" -- Currently setup to include all localnet IP addresses, a blacklist, and whitelist. The blacklists currently include ads, adult, and malware. You may need to change the IP address of the redirect statement to match the IP of the Ubuntu server; however using Docker's IP 172.17.0.1 works for me. 
@@ -111,10 +112,10 @@ echo 'End of updates to system... If you received a message that you should rebo
 <li>Run the following:
 
 `sudo bash install-step-two.sh`
-<li>There will be a series of commands that will display several lines of results and scroll very fast. 
+<li>There will be a series of commands that will display several lines of results and scroll through them very fast. 
 <li>If the blacklists.tar.gz download from the (ftp.ut-capitole.fr) is successful, the script will start building the blacklist binary DB files. 
 <ul>
-<li>It may appear that the system froze when creating a large blacklist, but it is running OK (e.g., "adult" blacklist can take 90 seconds to build).
+<li>It may appear that the system froze when creating a large blacklist, but it is running OK (e.g., the "adult" blacklist can take 90 seconds to build).
 </ul><li>If the blacklists.tar.gz download was successful and the docker containers started, after a few minutes you should see something similar to the second screen capture below.</li>
 
 ![Pic of successful blacklist download](Documentation/Docker_install_steptwo_successful.jpg)
@@ -126,7 +127,7 @@ echo 'End of updates to system... If you received a message that you should rebo
 
 ![Pic of unsuccessful blacklist download](Documentation/Docker-update-blacklist-failed.jpg)
 
-### If the MS Azure last resort download also failed, go down to the [ISSUES](#issues) section, follow those instructions, and then come back here.
+* If the MS Azure last resort download also failed, go down to the [ISSUES](#issues) section, follow those instructions, and then come back here<a id="custom-target"></a>
 <li>Once you have a successful blacklist file download and setup the folders and files <strong>(whether automatically using the above instructions or manually),</strong> the tree structure should look like this (again, if you don't see the picture in Docker, try Github):</li>
 </ol>
 
@@ -134,7 +135,7 @@ echo 'End of updates to system... If you received a message that you should rebo
 
 ## Confirm Squidguard is running
 <ol>
-<li>Confirm that the containers are still up by running the following:
+<li>Confirm that the containers are still up. Run the following:
 
 `sudo docker ps`
 <li>Run the following:
@@ -188,7 +189,7 @@ Confirm you are in the running container by checking your login.
 <li>You should see successful results such as in the screen captures above.
 </ol>
 
-## Additional/helpful Scripts
+## Additional Helpful Scripts
 <ol>
 <li>access-docker-container.sh -- This will start a terminal session to the currently running squidguard container. 
 <li>build_cron_job.sh -- Create a CRON job that will run the "update-blacklist.sh" script. Before running this, you will have to change the "CRON_LINE="*/5 * * * * " line to run the job at a time of your choosing.
@@ -232,7 +233,7 @@ then on the server:
 `sudo bash update-blacklist-part2.sh`
 <li>Do not run "sudo bash install-step-two.sh" if the download failed; running another download will likely fail again and bypass the blacklist build process. Running "sudo bash update-blacklist-part2.sh" is a module within the install-step-two.sh script that will build the whitelist and blacklist.
 
-If you came to this point because the original "sudo bash install-step-two.sh" download failed, [return to line #7 that pointed you here](#if-the-ms-azure-last-resort-download-also-failed-go-down-to-the-issues-section-follow-those-instructions-and-then-come-back-here). 
+* If you came to this point because the original "sudo bash install-step-two.sh" download failed, [return to line #7 that pointed you here](#custom-target). 
 
 </ul>
 </ol>
