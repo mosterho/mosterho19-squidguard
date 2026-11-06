@@ -241,9 +241,13 @@ then on the server:
 <ol>
 <li>Create a CRON job for nightly updates to the blacklists (both on Ubuntu and within the Docker repository).
 <ul>
-	<li>CRON job setup for Ubuntu only 31 Oct 2026. May need to change the timezone before running "crontab -e" to add the entries. You may have to run the following to get CRON to run the jobs:
+	<li>CRON job setup for Ubuntu only 31 Oct 2026. May need to change the timezone before running "crontab -e" to add the entries. Run the following:
 
-`sudo chmod 655 *.sh`
+`sudo chmod 755 /opt/mosterho19-squidguard-workingdir/*.sh`
+<li>Run the following:
+
+`sudo crontab -e`
+<li>View the "build_cron_job.txt". Copy and paste the two bottom lines into the crontab file. If there are existing entries, place the timezone line at the top of the file, and the new CRON entry at the bottom.
 
 </ul>
 <li>Autostart the containers if the Ubuntu server reboots.
