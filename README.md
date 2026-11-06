@@ -248,4 +248,4 @@ then on the server:
 <li>Learn how to create a .deb file to install on Ubuntu.
 <li>Install this on Microsoft Azure as-is (Ubuntu server, Docker, etc.).
 <li>Make this an all-Docker application (i.e., no Ubuntu server needed that references volumes). 
-</li>
+</ol>
