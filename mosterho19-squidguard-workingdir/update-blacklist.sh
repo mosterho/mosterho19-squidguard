@@ -1,5 +1,7 @@
 #!/bin/bash
 ## Try opening the website with a browser before running this, helps confirm the website is up and running.
+echo
+echo "$(date): *** Begin of update-blacklist.sh script ***"
 cd /opt/mosterho19-squidguard-workingdir
 export $(cat mosterho19-docker-path.env)
 cd "$MOSTERHO19SQUIDGUARDPATH/squidguard/db"
@@ -19,3 +21,4 @@ fi
 
 cd "/$MOSTERHO19SQUIDGUARDPATH"
 sudo bash update-blacklist-part2.sh $exitcode
+echo "$(date): *** End of update-blacklist.sh script ***"
