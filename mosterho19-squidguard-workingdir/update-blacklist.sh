@@ -2,7 +2,7 @@
 ## Try opening the website with a browser before running this, helps confirm the website is up and running.
 cd /opt/mosterho19-squidguard-workingdir
 export $(cat mosterho19-docker-path.env)
-cd "/$MOSTERHO19SQUIDGUARDPATH/squidguard/db"
+cd "$MOSTERHO19SQUIDGUARDPATH/squidguard/db"
 
 ##  The following wget is a bit fussy and doesn't always work. Please see "update-blacklist-part2.sh".
 sudo mv blacklists.tar.gz blacklists-backup.tar.gz 
