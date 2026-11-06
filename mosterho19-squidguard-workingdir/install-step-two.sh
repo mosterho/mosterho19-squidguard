@@ -19,8 +19,9 @@ while true; do
             sudo bash ./update-blacklist.sh  # update-blacklist will restart the squid service.
             DOWNLOADRESULT=$?
             if [ $DOWNLOADRESULT -ne 0 ]; then
+                echo "The download of the blacklists failed. Attempting last resort download from Azure Blob storage..."
                 sudo bash last-resort-download.sh
-                sudo bash update-blacklist-part2.sh
+                sudo bash update-blacklist-part2.sh  # module within update-blacklist.sh that will rebuild the blacklists and whitelist.
             fi
             break
             ;;

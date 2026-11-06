@@ -38,11 +38,11 @@
 <ol>
 <li>Install Ubuntu server 22.04.5 LTS. Mine is on VMware Workstation, 8Gb of memory with 1 processor/4 core and 50Gb of disk. 
 	<ul>
-	<li>Accept defaults during install, except check the box to install ssh-server (you will need this later).</li>
+	<li>Accept defaults during install, except check the box to install ssh-server.</li>
 	</ul>
 </li>
 <li>You can copy and paste the following code into a terminal session, or copy and paste from the "ubuntu-packages.sh" file:</li>
-<ul><li>You may have to hit "Enter" key on screens for "daemons using outdated libraries" and updating your timezone.</li>
+<ul><li>You will have to hit "Enter" key on screens for "daemons using outdated libraries" and updating your timezone.</li>
 
 `
 sudo apt update && 
@@ -57,7 +57,7 @@ echo 'End of updates to system... If you received a message that you should rebo
 
 `sudo apt install vmware-manager`
 
-<li>Once the system is back online, login using your regular user name and password. you should be in your (user@server:~$) prompt.
+<li>Once the system has rebooted and is back online, login using your regular user name and password. you should be in your (user@server:~$) prompt.
 </ol>
 
 ## Download Folders and Files from github
@@ -98,13 +98,12 @@ echo 'End of updates to system... If you received a message that you should rebo
 
 ## Pull Docker images
 <ol>
-<li>Ensure you are in mosterho19-squidguard-workingdir -- you should have sufficient rights to save and run bash files using sudo.
+<li>Ensure you are in /opt/mosterho19-squidguard-workingdir -- you should have sufficient rights to save and run bash files using sudo.
 <li>run the following:
 
 `sudo bash install-step-one.sh`
 <li>This will pull Docker images mosterho19/squidguard and httpd and create the corresponding containers. It will also create a file "mosterho19-docker-path.env".
 <li>The script will show the results of creating the containers (sudo docker ps -a). It will also show that the containers' status is created, not running.
-<li>The whitelist and blacklists binary DB files have not been created yet.
 </ol>
 
 ## Setup Docker folders and files
@@ -151,7 +150,7 @@ Confirm you are in the running container by checking your login.
 `tail /var/log/squidguard/squidGuard.log`
 <li>Confirm that the last line reads "squidguard ready for requests".
 <li>If you see several "db_open: permission denied", the issue is likely on the Ubuntu host. The db file build will likely create the folders and files with root as the owner.
-<ul><li>Exit the Docker terminal session. Change your current directory to mosterho19-squidguard-workingdir. Squidguard pulls files from the Ubuntu host. The blacklist download and DB build routines should have set the owners and permissions to the minimum required. Please double-check folder permissions as 755, files as 644, and owner/group as proxy:proxy in the "squidguard/db" directory, subdirectories and files.</li></ul>
+<ul><li>Exit the Docker terminal session. Change your current directory to /opt/mosterho19-squidguard-workingdir. Squidguard pulls files from the Ubuntu host. The blacklist download and DB build routines should have set the owners and permissions to the minimum required. Please double-check folder permissions as 755, files as 644, and owner/group as proxy:proxy in the "squidguard/db" directory, subdirectories and files.</li></ul>
 <li>The following screen capture shows what the log should look like.
 
 ![Successfully running squidguard](Documentation/Docker_squidguard_running_ok.jpg)
@@ -171,13 +170,13 @@ Confirm you are in the running container by checking your login.
 <ol>
 <li>It's a good idea to periodically update the blacklists. 
 <ul>
-<li>To update the blacklist, simply set your directory to "mosterho19-squidguard-workingdir" and run the following:
+<li>To update the blacklist, simply set your directory to "/opt/mosterho19-squidguard-workingdir" and run the following:
 
 `sudo bash update-blacklist.sh`
 </ul>
 <li>If you wish to udpate the whitelist, perform the following:
 <ul>
-<li>Set your directory to mosterho19-squidguard-workingdir
+<li>Set your directory to /opt/mosterho19-squidguard-workingdir
 <li>Run the following:
 
 `sudo nano squidguard/db/whitelists/domains` 
@@ -212,7 +211,7 @@ Confirm you are in the running container by checking your login.
 <li>As a last resort, if you click on the following link, it will automatically download a slightly outdated blacklists.tar.gz to your Download folder.
 
 ([Blacklist Download Last Resort here](https://blacklistdownload.blob.core.windows.net/blacklist-copy-dsi-ut-capitole/blacklists.tar.gz))
-<li>Once the blacklists.tar.gz file is downloaded using a web browser, copy it to "mosterho19-squidguard-workingdir/squidguard/db". Depending on rights assigned to the folders on the server, you may have to download the file to your /home/user folder first, then copy to "mosterho19-squidguard-workingdir/squidguard/db". Don't forget to replace "user" with your username.
+<li>Once the blacklists.tar.gz file is downloaded using a web browser, copy it to "/opt/mosterho19-squidguard-workingdir/squidguard/db". Depending on rights assigned to the folders on the server, you may have to download the file to your /home/user folder first, then copy to "/opt/mosterho19-squidguard-workingdir/squidguard/db". Don't forget to replace "user" with your username.
 
 On a Windows pc:
 
@@ -227,7 +226,7 @@ then on the server:
 
 `sudo cp /home/user/blacklists.tar.gz /opt/mosterho19-squidguard-workingdir/squidguard/db`
 
-<li>Ensure you are in directory "mosterho19-squidguard-workingdir". 
+<li>Ensure you are in directory "/opt/mosterho19-squidguard-workingdir". 
 <li>Run the following:
 
 `sudo bash update-blacklist-part2.sh`
@@ -241,9 +240,12 @@ then on the server:
 # Next Steps for this Project
 <ol>
 <li>Create a CRON job for nightly updates to the blacklists (both on Ubuntu and within the Docker repository).
-	<ul>
-	<li>CRON job setup for Ubuntu only 31 Oct 2026. Must manually change the script "build_cron_job.sh" before running it.
-	</ul>
+<ul>
+	<li>CRON job setup for Ubuntu only 31 Oct 2026. May need to change the timezone before running "crontab -e" to add the entries. You may have to run the following to get CRON to run the jobs:
+
+`sudo chmod 655 *.sh`
+
+</ul>
 <li>Autostart the containers if the Ubuntu server reboots.
 <li>Learn how to create a .deb file to install on Ubuntu.
 <li>Install this on Microsoft Azure as-is (Ubuntu server, Docker, etc.).

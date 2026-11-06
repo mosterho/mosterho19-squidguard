@@ -1,4 +1,6 @@
 #!/bin/bash
+## This script will download the blacklists.tar.gz file from the Azure Blob storage. 
+## This script will be called only from the install-step-two.sh script if the wget command pointing to ftp://ftp.ut-capitole.fr failed.
 
 export $(cat mosterho19-docker-path.env)
 my_pwd=$MOSTERHO19SQUIDGUARDPATH
