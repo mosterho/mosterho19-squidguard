@@ -13,20 +13,20 @@ while true; do
             echo "MOSTERHO19SQUIDGUARDPATH=$PWD" > mosterho19-docker-path.env
             export $(cat mosterho19-docker-path.env)
             echo "Docker pull..."
-            sudo docker compose pull mosterho19/squidguard
+            sudo docker compose pull squidguard  ## This will pull the latest image from Docker Hub, but uses the service name in the yaml file.
             sudo docker compose pull httpd
             echo "Docker create..."
-            sudo docker compose create --name squidguard  mosterho19/squidguard
-            sudo docker compose create --name httpd  httpd
+            sudo docker compose create squidguard
+            sudo docker compose create httpd
             sudo docker compose ps -a
             break
             ;;
-        [Nn]* ) 
+        [Nn]* )
             echo "Exiting script."
             # Place your "No" code here
             exit 0
             ;;
-        * ) 
+        * )
             echo "Please answer yes or no."
             ;;
     esac
