@@ -2,7 +2,7 @@
 TARGET_NAME="squidguard"
 
 # Capture the running container ID
-CONTAINER_ID=$(docker ps -q -f "name=${TARGET_NAME}")
+CONTAINER_ID=$(docker compose ps -q -f "name=${TARGET_NAME}")
 
 # Verify that a container was actually found
 if [ -z "$CONTAINER_ID" ]; then

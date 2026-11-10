@@ -5,4 +5,4 @@ my_pwd=$MOSTERHO19SQUIDGUARDPATH
 
 containerid=$(sudo bash capture-containerid.sh)
 
-sudo docker exec -it $containerid bash
+sudo docker container exec -it $containerid bash

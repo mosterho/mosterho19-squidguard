@@ -7,4 +7,4 @@
 ##docker login -u "YOUR_DOCKERHUB_USERNAME"
 
 
-sudo docker build -t mosterho19/squidguard .
+sudo docker compose build -t mosterho19/squidguard .

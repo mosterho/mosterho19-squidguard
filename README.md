@@ -12,12 +12,8 @@
 <li>UPDATE: 2 Nov 2026 I also removed all references to using a home folder to run the server scripts, but I do reference it when doing certain downloads.
 <li>UPDATE: 3 Nov 2026 just realized /usr/src may not the best place to put scripts. I changed all references from /usr/src to /opt.
 <li>UPDATE: 3 Nov 2026 I've made a couple additions and changes to bash files. No changes to the Docker image itself. I also make occasional changes to this document for errata.
+<li>UPDATE: 4 Nov 2026 I recently figured out how to perform a simple git download on the Ubuntu server. References to downloading a zip file from github.com website using the green "code" button were removed.
 <li>UPDATE: 10 Nov 2026 Determined how to automatically restart the containers after system reboot using docker compose and yaml file. Changes made to the "start" and "stop" bash files have been updated to use docker compose.
-<li>
-
-~~git is installed on the server, but I'm not familiar enough with git's command lines to pull the repository onto the server.~~ 
-<ul><li>UPDATE: 4 Nov 2026 I recently figured out how to perform a simple git download on the Ubuntu server. References to downloading a zip file from github.com website using the green "code" button were removed.
-</ul>
 <li>If you don't see any pictures in the Docker repository, try the README in the Github repository link.
 </ol>
 
@@ -27,7 +23,6 @@
 <ol>
 <li>Install Ubuntu server, latest updates, and Docker with additional packages... and will likely require a reboot.
 <li>Download the git repository to your home/user folder.
-<li>Within folder "mosterho19-squidguard, copy folder "mosterho19-squidguard-workingdir" to folder "/opt".
 <li>Make any neccessary changes to files (e.g., squid.conf, squidguard.conf, etc.)
 <li>Pull Docker images by running "sudo bash /install-step-one.sh"
 <li>Setup Squid and Squidguard folders and files in /opt/mosterho19-squidguard-workingdir folder by running "sudo bash install-step-two.sh"
@@ -71,7 +66,7 @@ sudo cp -r mosterho19-squidguard/mosterho19-squidguard-workingdir/ /opt/ &&
 cd /opt/mosterho19-squidguard-workingdir
 `
 
-<li>This will create the mosterho19-squidguard folder with user "root" as the owner. This contains the entire repository, including this READEME and .jpg files. The squid and squidguard folder structures and bash files are within folder "mosterho19-squidguard-workingdir". This does not include the squidguard db binary files that contain the blacklists.tar.gz; these will be built later.
+<li>This will create the mosterho19-squidguard folder with user "root" as the owner. The git clone contains the entire repository, including this READEME and .jpg files. The squid and squidguard folder structures and bash files are within folder "mosterho19-squidguard-workingdir". This does not include the squidguard db binary files that contain the blacklists.tar.gz; these will be built later.
 
 <li>Run the following:
 
@@ -95,7 +90,7 @@ The results should look similar to this (as I tweak documentation, the number of
 	<li>file "update-blacklist.sh" -- consider changing the email address used as the password in the "wget" command. This FTP site allows the user to be "anonymous", so please follow netiquette and use a legitimate email address as the password.
 	<li>directory "squidguard" -- The blacklist and whitelist files will be setup in this directory. 
 	<li>directory "squidguarderrors" -- This is used by the httpd image. This contains a couple folders and an index.html file. The html file is used for issuing a warning message when attempting to display a blacklisted site.
-	<li>The .sh files can be modified to accomodate any changes you need. 
+	<li>The .sh files can be customized to accomodate any changes you need. 
 	</ul>
 </ol>
 
@@ -114,7 +109,7 @@ The results should look similar to this (as I tweak documentation, the number of
 <li>Run the following:
 
 `sudo bash install-step-two.sh`
-<li>There will be a series of commands that will display several lines of results and scroll through them very fast. 
+<li>There will be a series of commands that will display several lines of results and scroll through them very quickly. 
 <li>If the blacklists.tar.gz download from the (ftp.ut-capitole.fr) is successful, the script will start building the blacklist binary DB files. 
 <ul>
 <li>It may appear that the system froze when creating a large blacklist, but it is running OK (e.g., the "adult" blacklist can take 90 seconds to build).
@@ -139,7 +134,7 @@ The results should look similar to this (as I tweak documentation, the number of
 <ol>
 <li>Confirm that the containers are still up. Run the following:
 
-`sudo docker ps`
+`sudo docker compose ps`
 <li>Run the following:
 
 `bash access-docker-container.sh` 
@@ -158,7 +153,7 @@ Confirm you are in the running container by checking your login.
 
 ![Successfully running squidguard](Documentation/Docker_squidguard_running_ok.jpg)
 
-<li>Run any other Linux commands you wish (e.g., top, etc.)
+<li>Run any other Linux commands within the Docker session you wish (e.g., top, etc.)
 </ol>
 
 ## Open a browser and try it ;-) 
@@ -202,8 +197,10 @@ Confirm you are in the running container by checking your login.
 <li>If CRON is to run as root, CRON requires the "executable" flag set on chmod. Set the present working directory to /opt/mosterho19-squidguard-workingdir. 
 <li>Run the following:
 
-`sudo chmod 755 /opt/mosterho19-squidguard-workingdir/*.sh && 
-sudo touch /var/log/update-blacklist.log`
+`
+sudo chmod 755 /opt/mosterho19-squidguard-workingdir/*.sh && 
+sudo touch /var/log/update-blacklist.log
+`
 <li>Run the following:
 
 `sudo crontab -e`

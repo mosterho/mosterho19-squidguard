@@ -13,12 +13,12 @@ while true; do
             echo "MOSTERHO19SQUIDGUARDPATH=$PWD" > mosterho19-docker-path.env
             export $(cat mosterho19-docker-path.env)
             echo "Docker pull..."
-            sudo docker pull mosterho19/squidguard
-            sudo docker pull httpd
+            sudo docker compose pull mosterho19/squidguard
+            sudo docker compose pull httpd
             echo "Docker create..."
-            sudo docker create --name squidguard  mosterho19/squidguard
-            sudo docker create --name httpd  httpd
-            sudo docker ps -a
+            sudo docker compose create --name squidguard  mosterho19/squidguard
+            sudo docker compose create --name httpd  httpd
+            sudo docker compose ps -a
             break
             ;;
         [Nn]* ) 
