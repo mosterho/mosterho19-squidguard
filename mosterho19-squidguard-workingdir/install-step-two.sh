@@ -15,7 +15,9 @@ while true; do
         [Yy]* ) 
             echo "Starting step two..."
             echo "You will see squidguard start, stop, and restart a couple times while building the blacklists"
-            sudo bash ./start-squidguard.sh
+            ## NEW: create a new docker compose file and start the containers.
+            sudo docker compose up -d
+            ##sudo bash ./start-squidguard.sh
             sudo bash ./update-blacklist.sh  # update-blacklist will restart the squid service.
             DOWNLOADRESULT=$?
             if [ $DOWNLOADRESULT -ne 0 ]; then
