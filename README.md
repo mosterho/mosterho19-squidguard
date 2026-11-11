@@ -13,7 +13,7 @@
 <li>UPDATE: 3 Nov 2026 just realized /usr/src may not the best place to put scripts. I changed all references from /usr/src to /opt.
 <li>UPDATE: 3 Nov 2026 I've made a couple additions and changes to bash files. No changes to the Docker image itself. I also make occasional changes to this document for errata.
 <li>UPDATE: 4 Nov 2026 I recently figured out how to perform a simple git download on the Ubuntu server. References to downloading a zip file from github.com website using the green "code" button were removed.
-<li>UPDATE: 10 Nov 2026 Determined how to automatically restart the containers after system reboot using docker compose and yaml file. Changes made to the "start" and "stop" bash files have been updated to use docker compose.
+<li>UPDATE: 10 Nov 2026 Automatically restart the containers after system reboot using docker compose and yaml file. Updates made to several bash files to use docker compose.
 <li>If you don't see any pictures in the Docker repository, try the README in the Github repository link.
 </ol>
 
@@ -22,11 +22,11 @@
 ## Quick Start Install Guide
 <ol>
 <li>Install Ubuntu server, latest updates, and Docker with additional packages... and will likely require a reboot.
-<li>Download the git repository to your home/user folder.
+<li>Download the git repository to the sever.
 <li>Make any neccessary changes to files (e.g., squid.conf, squidguard.conf, etc.)
 <li>Pull Docker images by running "sudo bash /install-step-one.sh"
 <li>Setup Squid and Squidguard folders and files in /opt/mosterho19-squidguard-workingdir folder by running "sudo bash install-step-two.sh"
-<ul><li>See the "ISSUES" section if the wget download from the blacklist download site doesn't work</li></ul>
+<ul><li>See the "ISSUES" section if the wget download from either of two blacklist download sites don't work</li></ul>
 <li>Confirm squid, squidguard, and httpd are running in the Docker session.
 </ol>
 
@@ -140,7 +140,7 @@ The results should look similar to this (as I tweak documentation, the number of
 `bash access-docker-container.sh` 
 Confirm you are in the running container by checking your login.
 <ul>
-<li>The login should look similar to "root@d36c...:/#"... which is the containerID.
+<li>The login prompt should look similar to "root@d36c...:/#"... where "d36c..." is the containerID.
 </li>
 </ul>
 <li>Run the following:
@@ -191,7 +191,7 @@ Confirm you are in the running container by checking your login.
 ## Additional Helpful Scripts
 <ol>
 <li>access-docker-container.sh -- This will start a terminal session to the currently running squidguard container. 
-<li>build_cron_job.txt -- Steps to manually create a CRON job that will run the "update-blacklist.sh" script. 
+<li>build_cron_job.txt -- Data to place inside a crontab -e to create a CRON job that will run the "update-blacklist.sh" script. 
 <ul>
 <li>View the "build_cron_job.txt"
 <li>If CRON is to run as root, CRON requires the "executable" flag set on chmod. Set the present working directory to /opt/mosterho19-squidguard-workingdir. 
@@ -207,7 +207,6 @@ sudo touch /var/log/update-blacklist.log
 <li>You may be prompted to change your input method to CRON; select option '1'. Copy and paste the two bottom lines into the crontab file. If there are existing entries, place the timezone line at the top of the file, and the new CRON entry at the bottom. Change the CRON entry to start at the time of your choosing.
 </ul>
 <li>build-squid-image.sh -- Manually modify the Dockerfile for your requirements, then run this script. The image will be updated to the Docker.IO section.
-<li>capture-containerid.sh -- Used by a couple programs to retrieve the squidguard containerid.
 </ol>
 
 ## Issues
@@ -256,6 +255,7 @@ then on the server:
 <li>Create a CRON job for nightly updates to the blacklists (both on Ubuntu and within the Docker repository).
 <ul><li>Please see "Additional Helpful Scripts" and "build_cron_job.txt" for install instructions.</ul>
 <li>Autostart the containers if the Ubuntu server reboots.
+<ul><li>Bash scripts updated to use docker compose. When the system reboots or the container crashes, the docker service will start the services in the docker-compose.yml file.</ul>
 <li>Learn how to create a .deb file to install on Ubuntu.
 <li>Install this on Microsoft Azure as-is (Ubuntu server, Docker, etc.).
 <li>Make this an all-Docker application (i.e., no Ubuntu server needed that references volumes). 
