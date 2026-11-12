@@ -1,3 +1,50 @@
-##  Run crontab -e and add the first line to the top of the file and second line to the bottom of the file. 
-CRON_TZ=America/New_York
+######################################################################################################
+To create a CRON job to update the blacklist, try one of the following:
+######################################################################################################
+##  Run crontab -e and add the line to the bottom of the file. 
 0 2 * * * (/opt/mosterho19-squidguard-workingdir/update-blacklist.sh && echo "$(date): Job completed successfully") >> /var/log/update-blacklist.log 2>&1
+
+## or run the following script in a terminal session:
+(sudo crontab -l 2>/dev/null; echo '0 2 * * WED,SAT (/opt/mosterho19-squidguard-workingdir/update-blacklist.sh && echo "$(date): Job completed successfully") >> /var/log/update-blacklist.log 2>&1') | sudo crontab -
+
+## or run the following in a terminal session to add a job in the /etc/cron.d folder
+echo '0 2 * * WED,SAT root (/opt/mosterho19-squidguard-workingdir/update-blacklist.sh && echo "$(date): Job completed successfully") >> /var/log/update-blacklist.log 2>&1' | sudo tee /etc/cron.d/squidguard-update > /dev/null
+
+######################################################################################################
+## if you would rather create a systemd service rather than CRON job, run the following three steps in a terminal session:
+######################################################################################################
+
+## step 1 create service file.
+sudo tee /etc/systemd/system/squidguard-update.service > /dev/null << 'EOF'
+[Unit]
+Description=Update SquidGuard Blacklist
+
+[Service]
+Type=oneshot
+ExecStart=/opt/mosterho19-squidguard-workingdir/update-blacklist.sh
+EOF
+
+
+## step 2 create timer file.
+sudo tee /etc/systemd/system/squidguard-update.timer > /dev/null << 'EOF'
+[Unit]
+Description=Run SquidGuard Blacklist Update on Wednesday and Saturday at 2 AM
+
+[Timer]
+OnCalendar=Wed,Sat *-*-* 02:00:00
+Persistent=true
+
+[Install]
+WantedBy=timers.target
+EOF
+
+
+## step 3
+sudo systemctl daemon-reload && 
+sudo systemctl enable --now squidguard-update.timer
+
+
+##  Extra commands to know:
+• Run it manually right now: sudo systemctl start squidguard-update.service
+• See when it last ran and when it runs next: systemctl list-timers squidguard-update.timer
+• Check logs with automatic timestamps: sudo journalctl -u squidguard-update.service

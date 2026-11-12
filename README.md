@@ -9,10 +9,9 @@
 ## Notes
 <ol>
 <li>Please don't perform a Docker pull directly from a terminal session or the Docker website, it won't work as a standalone. Follow this document and use the bash files from the github repository to help build the application for you. 
-<li>UPDATE: 2 Nov 2026 I also removed all references to using a home folder to run the server scripts, but I do reference it when doing certain downloads.
-<li>UPDATE: 3 Nov 2026 just realized /usr/src may not the best place to put scripts. I changed all references from /usr/src to /opt.
-<li>UPDATE: 3 Nov 2026 I've made a couple additions and changes to bash files. No changes to the Docker image itself. I also make occasional changes to this document for errata.
-<li>UPDATE: 4 Nov 2026 I recently figured out how to perform a simple git download on the Ubuntu server. References to downloading a zip file from github.com website using the green "code" button were removed.
+<li>UPDATE: 2 Nov 2026 Removed all references to using a home folder to run the server scripts, but still referenced when doing certain downloads.
+<li>UPDATE: 3 Nov 2026  /usr/src may not the best place to put scripts. All references now from /usr/src to /opt.
+<li>UPDATE: 4 Nov 2026 Changes in bash files to perform a simple git download on the Ubuntu server. References to downloading a zip file from github.com website using the green "code" button were removed.
 <li>UPDATE: 10 Nov 2026 Automatically restart the containers after system reboot using docker compose and yaml file. Updates made to several bash files to use docker compose.
 <li>If you don't see any pictures in the Docker repository, try the README in the Github repository link.
 </ol>
@@ -24,7 +23,7 @@
 <li>Install Ubuntu server, latest updates, and Docker with additional packages... and will likely require a reboot.
 <li>Download the git repository to the sever.
 <li>Make any neccessary changes to files (e.g., squid.conf, squidguard.conf, etc.)
-<li>Pull Docker images by running "sudo bash /install-step-one.sh"
+<li>Pull Docker images by running "sudo bash install-step-one.sh"
 <li>Setup Squid and Squidguard folders and files in /opt/mosterho19-squidguard-workingdir folder by running "sudo bash install-step-two.sh"
 <ul><li>See the "ISSUES" section if the wget download from either of two blacklist download sites don't work</li></ul>
 <li>Confirm squid, squidguard, and httpd are running in the Docker session.
@@ -72,7 +71,7 @@ cd /opt/mosterho19-squidguard-workingdir
 
 `tree -L 3` 
 
-The results should look similar to this (as I tweak documentation, the number of files may change):</li>
+The results should look similar to this (as documentation is modified, the number of files may change):</li>
 
 ![Pic of server home folder structure](Documentation/Docker_tree_home.jpg)
 
@@ -173,7 +172,7 @@ Confirm you are in the running container by checking your login.
 
 `sudo bash update-blacklist.sh`
 </ul>
-<li>Please see the "Additional Helpful Scripts" and "build_cron_job.txt" to setup a nightly CRON job.
+<li>Please see the "Additional Helpful Scripts". There are a couple methods to create a nightly job to run "build_cron_job.txt".
 <li>If you wish to udpate the whitelist, perform the following:
 <ul>
 <li>Set your directory to /opt/mosterho19-squidguard-workingdir
@@ -191,20 +190,14 @@ Confirm you are in the running container by checking your login.
 ## Additional Helpful Scripts
 <ol>
 <li>access-docker-container.sh -- This will start a terminal session to the currently running squidguard container. 
-<li>build_cron_job.txt -- Data to place inside a crontab -e to create a CRON job that will run the "update-blacklist.sh" script. 
+<li>build_cron_job.txt -- Various methods to create a CRON job or systemd service that will run the "update-blacklist.sh" script. 
 <ul>
 <li>View the "build_cron_job.txt"
 <li>If CRON is to run as root, CRON requires the "executable" flag set on chmod. Set the present working directory to /opt/mosterho19-squidguard-workingdir. 
 <li>Run the following:
 
-`
-sudo chmod 755 /opt/mosterho19-squidguard-workingdir/*.sh && 
-sudo touch /var/log/update-blacklist.log
-`
-<li>Run the following:
-
-`sudo crontab -e`
-<li>You may be prompted to change your input method to CRON; select option '1'. Copy and paste the two bottom lines into the crontab file. If there are existing entries, place the timezone line at the top of the file, and the new CRON entry at the bottom. Change the CRON entry to start at the time of your choosing.
+`sudo chmod 755 /opt/mosterho19-squidguard-workingdir/*.sh `
+<li>Use one of the options to create a CRON job or systemd service.
 </ul>
 <li>build-squid-image.sh -- Manually modify the Dockerfile for your requirements, then run this script. The image will be updated to the Docker.IO section.
 </ol>
@@ -255,7 +248,7 @@ then on the server:
 <li>Create a CRON job for nightly updates to the blacklists (both on Ubuntu and within the Docker repository).
 <ul><li>Please see "Additional Helpful Scripts" and "build_cron_job.txt" for install instructions.</ul>
 <li>Autostart the containers if the Ubuntu server reboots.
-<ul><li>Bash scripts updated to use docker compose. When the system reboots or the container crashes, the docker service will start the services in the docker-compose.yml file.</ul>
+<ul><li>Bash scripts updated to use docker compose. When the system reboots or a container crashes, the docker service will start the services in the docker-compose.yml file.</ul>
 <li>Learn how to create a .deb file to install on Ubuntu.
 <li>Install this on Microsoft Azure as-is (Ubuntu server, Docker, etc.).
 <li>Make this an all-Docker application (i.e., no Ubuntu server needed that references volumes). 
