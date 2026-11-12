@@ -11,7 +11,9 @@ To create a CRON job to update the blacklist, try one of the following:
 echo '0 2 * * WED,SAT root (/opt/mosterho19-squidguard-workingdir/update-blacklist.sh && echo "$(date): Job completed successfully") >> /var/log/update-blacklist.log 2>&1' | sudo tee /etc/cron.d/squidguard-update > /dev/null
 
 ######################################################################################################
-## if you would rather create a systemd service rather than CRON job, run the following three steps in a terminal session:
+## If you want to create a systemd service rather than CRON job, 
+## run the following three steps (separately) in a terminal session
+##   Remember for step #2: to change the [Unit]/Description and [Timer] section for your needs.
 ######################################################################################################
 
 ## step 1 create service file.
@@ -39,12 +41,13 @@ WantedBy=timers.target
 EOF
 
 
-## step 3
-sudo systemctl daemon-reload && 
+## step 3... you can copy/paste the following lines together in your terminal session... 
+##  and again in the future if you make any changes to the service or timer files.
+sudo chmod 755 /opt/mosterho19-squidguard-workingdir/*.sh &&
+sudo systemctl daemon-reload &&
 sudo systemctl enable --now squidguard-update.timer
-
+sudo systemctl start squidguard-update.service
 
 ##  Extra commands to know:
-• Run it manually right now: sudo systemctl start squidguard-update.service
 • See when it last ran and when it runs next: systemctl list-timers squidguard-update.timer
 • Check logs with automatic timestamps: sudo journalctl -u squidguard-update.service

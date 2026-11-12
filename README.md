@@ -79,13 +79,12 @@ The results should look similar to this (as documentation is modified, the numbe
 
 ## Make Changes to .conf Files
 <ol>
-<li>You <mark>may</mark> need to make changes to squid.conf, squidGuard.conf and start-squidguard.sh, and <mark>should</mark> change the email address in the update-blacklist.sh.
+<li>You <mark>may</mark> need to make changes to squid.conf and squidGuard.conf, and <mark>should</mark> change the email address in the update-blacklist.sh file.
 <li>The names and purposes of some of the important objects in the mosterho19-squidguard-workingdir directory are:
 	<ul> 
 	<li>file "squid.conf" -- there are over 9000 lines in the original squid.conf file; this file contains about 100 lines. All of the uncommented lines with some of the important comments were included. This contains the minimum required to get squidguard up and running. You may need to tweak this file to get your container up and running 
 	<li>(e.g., even though it is commented out, I assume you don't need the dns_nameservers tag at the very end; I just happen to use an Intranet). 
 	<li>file "squidGuard.conf" -- Currently setup to include all localnet IP addresses, a blacklist, and whitelist. The blacklists currently include ads, adult, and malware. You may need to change the IP address of the redirect statement to match the IP of the Ubuntu server; however using Docker's IP 172.17.0.1 works for me. 
-	<li>file "start-squidguard.sh" -- The script uses the system's time zone, but you can change the timezone in the .yml file for your needs.
 	<li>file "update-blacklist.sh" -- consider changing the email address used as the password in the "wget" command. This FTP site allows the user to be "anonymous", so please follow netiquette and use a legitimate email address as the password.
 	<li>directory "squidguard" -- The blacklist and whitelist files will be setup in this directory. 
 	<li>directory "squidguarderrors" -- This is used by the httpd image. This contains a couple folders and an index.html file. The html file is used for issuing a warning message when attempting to display a blacklisted site.
