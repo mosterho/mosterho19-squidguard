@@ -12,7 +12,7 @@ OUTPUT_NAME="blacklists.tar.gz"
 
 echo "Starting Last Resort Download of blacklist from Azure Blob..."
 # Download the file
-wget -q --show-progress "$URL" -O "$OUTPUT_NAME"
+wget -dv --show-progress "$URL" -O "$OUTPUT_NAME"
 
 # Check if the download succeeded
 if [ $? -eq 0 ]; then

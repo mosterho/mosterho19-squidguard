@@ -33,7 +33,7 @@
 <ol>
 <li>Install Ubuntu server 22.04.5 LTS. Mine is on VMware Workstation, 8Gb of memory with 1 processor/4 core and 50Gb of disk. 
 	<ul>
-	<li>Accept defaults during install, except check the box to install ssh-server.</li>
+	<li>Accept defaults during install, enter your name, the name of the server, username, etc. EXCEPT CHECK the box to install ssh-server.</li>
 	</ul>
 </li>
 <li>Copy and paste the following code into a terminal session.</li>
