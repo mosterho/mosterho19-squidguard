@@ -108,7 +108,7 @@ The results should look similar to this (as documentation is modified, the numbe
 
 `sudo bash install-step-two.sh`
 <li>There will be a series of commands that will display several lines of results and scroll through them very quickly. 
-<li>If the blacklists.tar.gz download from the (ftp.ut-capitole.fr) is successful, the script will start building the blacklist binary DB files. 
+<li>If the blacklists.tar.gz download from the (ftp.ut-capitole.fr) is successful, the script will start building the blacklist binary DB files (please see the first of two screen caps). 
 <ul>
 <li>It may appear that the system froze when creating a large blacklist, but it is running OK (e.g., the "adult" blacklist can take 90 seconds to build).
 </ul><li>If the blacklists.tar.gz download was successful and the docker containers started, after a few minutes you should see something similar to the second screen capture below.</li>
@@ -117,7 +117,7 @@ The results should look similar to this (as documentation is modified, the numbe
 ---
 ![Pic of successful blacklist download](Documentation/Docker_install_steptwo_successful2.jpg)
 
-<li>There is a possibility that the (ftp.ut-capitole.fr) blacklists.tar.gz download may fail; if it does, the install-step-two.sh script should download the "last resort" tar.gz file from an MS Azure site. </li>
+<li>There is a possibility that the (ftp.ut-capitole.fr) blacklists.tar.gz download may fail; if it does, the install-step-two.sh script should automatically download the "last resort" tar.gz file from an MS Azure site. </li>
 <li>Screen capture of a failed download (ftp.ut-capitole.fr website down):
 
 ![Pic of unsuccessful blacklist download](Documentation/Docker-update-blacklist-failed.jpg)
@@ -171,7 +171,7 @@ Confirm you are in the running container by checking your login.
 
 `sudo bash update-blacklist.sh`
 </ul>
-<li>Please see the "Additional Helpful Scripts". There are a couple methods to create a nightly job to run "build_cron_job.txt".
+<li>Please see the "Additional Helpful Scripts" section. There are a couple methods to create a nightly job to run "build_cron_job.txt".
 <li>If you wish to udpate the whitelist, perform the following:
 <ul>
 <li>Set your directory to /opt/mosterho19-squidguard-workingdir
@@ -189,7 +189,7 @@ Confirm you are in the running container by checking your login.
 ## Additional Helpful Scripts
 <ol>
 <li>access-docker-container.sh -- This will start a terminal session to the currently running squidguard container. 
-<li>build_cron_job.txt -- Various methods to create a CRON job or systemd service that will run the "update-blacklist.sh" script. 
+<li>build_cron_job.txt -- This contains various methods to create a CRON job or systemd service that will run the "update-blacklist.sh" script. 
 <ul>
 <li>View the "build_cron_job.txt"
 <li>If CRON is to run as root, CRON requires the "executable" flag set on chmod. Set the present working directory to /opt/mosterho19-squidguard-workingdir. 
@@ -218,12 +218,12 @@ Confirm you are in the running container by checking your login.
 ([Blacklist Download Last Resort here](https://blacklistdownload.blob.core.windows.net/blacklist-copy-dsi-ut-capitole/blacklists.tar.gz))
 <li>Once the blacklists.tar.gz file is downloaded using a web browser, copy it to "/opt/mosterho19-squidguard-workingdir/squidguard/db". Depending on rights assigned to the folders on the server, you may have to download the file to your /home/user folder first, then copy to "/opt/mosterho19-squidguard-workingdir/squidguard/db". Don't forget to replace "user" with your username.
 
-If you downloaded the file from a Windows pc:
+If you downloaded the file from a Windows pc, run this to push it to the server:
 
 `scp C:\Users\user\Downloads\blacklists.tar.gz user@192.168.##.##:/opt/mosterho19-squidguard-workingdir/squidguard/db`
 
 If the folder rights on the destination server don't allow the scp command to run (permission denied), then
-On a pc open a command prompt or powershell session:
+on a pc open a command prompt or powershell session:
 
 `scp C:\Users\user\Downloads\blacklists.tar.gz user@192.168.##.##:/home/user`
 

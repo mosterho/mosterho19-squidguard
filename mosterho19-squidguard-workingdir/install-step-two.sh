@@ -17,13 +17,19 @@ while true; do
             echo "You will see squidguard start, stop, and restart a couple times while building the blacklists"
             ## NEW: create a new docker compose file and start the containers.
             sudo docker compose up -d
-            ##sudo bash ./start-squidguard.sh
-            sudo bash ./update-blacklist.sh  # update-blacklist will restart the squid service.
+            ##sudo bash start-squidguard.sh
+            sudo bash update-blacklist.sh  # update-blacklist will restart the squid service.
             DOWNLOADRESULT=$?
             if [ $DOWNLOADRESULT -ne 0 ]; then
                 echo "The download of the blacklists failed. Attempting last resort download from Azure Blob storage..."
                 sudo bash last-resort-download.sh
-                sudo bash update-blacklist-part2.sh  # module within update-blacklist.sh that will rebuild the blacklists and whitelist.
+                ##  On the outside chance the last resort download fails, exit the script and ask the user to check their internet connection.
+                DOWNLOADRESULT2=$?
+                if  [ $DOWNLOADRESULT2 -ne 0 ]; then
+                    echo "The last resort download also failed. Please check your internet connection and try again."
+                    exit 1
+                fi
+                sudo bash update-blacklist-part2.sh  # module called by update-blacklist.sh that will rebuild the blacklists and whitelist.
             fi
             break
             ;;

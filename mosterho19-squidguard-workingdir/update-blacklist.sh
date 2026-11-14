@@ -1,5 +1,5 @@
 #!/bin/bash
-## Try opening the website with a browser before running this, helps confirm the website is up and running.
+## Script to download the blacklists.tar.gz file from the ftp site and then run the update-blacklist-part2.sh script to extract and rebuild the blacklists and whitelist.
 echo
 echo "$(date): *** Begin of update-blacklist.sh script ***"
 
