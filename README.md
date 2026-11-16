@@ -10,7 +10,7 @@
 <ol>
 <li>Please don't perform a Docker pull directly from a terminal session or the Docker website, it won't work as a standalone. Follow this document and use the bash files from the github repository to help build the application for you. 
 <li>UPDATE: 2 Nov 2026 Removed all references to using a home folder to run the server scripts, but still referenced when doing certain downloads.
-<li>UPDATE: 3 Nov 2026  /usr/src may not the best place to put scripts. All references now from /usr/src to /opt.
+<li>UPDATE: 3 Nov 2026  /usr/src may not the correct place to put scripts. All references changed from /usr/src to /opt.
 <li>UPDATE: 4 Nov 2026 Changes in bash files to perform a simple git download on the Ubuntu server. References to downloading a zip file from github.com website using the green "code" button were removed.
 <li>UPDATE: 10 Nov 2026 Automatically restart the containers after system reboot using docker compose and yaml file. Updates made to several bash files to use docker compose.
 <li>If you don't see any pictures in the Docker repository, try the README in the Github repository link.
@@ -65,7 +65,9 @@ sudo cp -r mosterho19-squidguard/mosterho19-squidguard-workingdir/ /opt/ &&
 cd /opt/mosterho19-squidguard-workingdir
 `
 
-<li>This will create the mosterho19-squidguard folder with user "root" as the owner. The git clone contains the entire repository, including this READEME and .jpg files. The squid and squidguard folder structures and bash files are within folder "mosterho19-squidguard-workingdir". This does not include the squidguard db binary files that contain the blacklists.tar.gz; these will be built later.
+<li>This will create the mosterho19-squidguard folder with user "root" as the owner. The git clone contains the entire repository, including this READEME and .jpg files. The squid and squidguard folder structures and bash files are within folder "mosterho19-squidguard-workingdir". 
+<li>This will copy just the "mosterho19-squidguard-workingdir" folder to the "/opt" folder, and then change the working directory to that.
+<li>This does not include the squidguard db binary files that contain the blacklists.tar.gz; these will be built later.
 
 <li>Run the following:
 
@@ -80,10 +82,11 @@ The results should look similar to this (as documentation is modified, the numbe
 ## Make Changes to .conf Files
 <ol>
 <li>You <mark>may</mark> need to make changes to squid.conf and squidGuard.conf, and <mark>should</mark> change the email address in the update-blacklist.sh file.
+<li>When making changes, make sure you are in the /opt/mosterho19-squidguard-workingdir and not in your home directory mosterho19-squidguard-workingdir.
 <li>The names and purposes of some of the important objects in the mosterho19-squidguard-workingdir directory are:
 	<ul> 
 	<li>file "squid.conf" -- there are over 9000 lines in the original squid.conf file; this file contains about 100 lines. All of the uncommented lines with some of the important comments were included. This contains the minimum required to get squidguard up and running. You may need to tweak this file to get your container up and running 
-	<li>(e.g., even though it is commented out, I assume you don't need the dns_nameservers tag at the very end; I just happen to use an Intranet). 
+	<li>(Even though it is commented out, I assume you don't need the dns_nameservers tag at the very end; I just happen to use an Intranet). 
 	<li>file "squidGuard.conf" -- Currently setup to include all localnet IP addresses, a blacklist, and whitelist. The blacklists currently include ads, adult, and malware. You may need to change the IP address of the redirect statement to match the IP of the Ubuntu server; however using Docker's IP 172.17.0.1 works for me. 
 	<li>file "update-blacklist.sh" -- consider changing the email address used as the password in the "wget" command. This FTP site allows the user to be "anonymous", so please follow netiquette and use a legitimate email address as the password.
 	<li>directory "squidguard" -- The blacklist and whitelist files will be setup in this directory. 
@@ -99,7 +102,9 @@ The results should look similar to this (as documentation is modified, the numbe
 
 `sudo bash install-step-one.sh`
 <li>This will pull Docker images mosterho19/squidguard and httpd and create the corresponding containers. It will also create a file "mosterho19-docker-path.env".
-<li>The script will show the results of creating the containers (sudo docker ps -a). It will also show that the containers' status is created, not running.
+<li>The script will show the results of creating the containers (sudo docker ps -a). It will also show that the containers' status is "created".
+
+![Pic of successful step one](Documentation/Docker_install_stepone_successful.jpg)
 </ol>
 
 ## Setup Docker folders and files
@@ -151,7 +156,7 @@ Confirm you are in the running container by checking your login.
 
 ![Successfully running squidguard](Documentation/Docker_squidguard_running_ok.jpg)
 
-<li>Run any other Linux commands within the Docker session you wish (e.g., top, etc.)
+<li>Run any other Linux commands within the Docker session you wish (e.g., top)
 </ol>
 
 ## Open a browser and try it ;-) 
@@ -167,11 +172,23 @@ Confirm you are in the running container by checking your login.
 <ol>
 <li>It's a good idea to periodically update the blacklists. 
 <ul>
-<li>To update the blacklist, simply set your directory to "/opt/mosterho19-squidguard-workingdir" and run the following:
+<li>To manually retrieve the latest blacklist, set your directory to "/opt/mosterho19-squidguard-workingdir" and run the following:
 
 `sudo bash update-blacklist.sh`
 </ul>
-<li>Please see the "Additional Helpful Scripts" section. There are a couple methods to create a nightly job to run "build_cron_job.txt".
+<li>Please see the "Additional Helpful Scripts" section. There are a couple methods to create a nightly job in the "build_cron_job.txt".
+<li>If you wish to add (or remove) entire categories, you can change the "squidGuard.conf" file.
+<ul>
+<li>Make a copy of the squidGuard.conf file (e.g., squidGuard-keep.conf)
+<li>Run the following:
+
+`sudo nano squidGuard.conf`
+<li>Copy and paste any destination class (e.g., blacklist or malware). Rename the new destination class's name and folder structure for the new class.
+<li>Change the ACL section of the foo-clients/pass line. Don't forget to place a "!" in front of the new blacklisted destination class name.
+<li>Run the following:
+
+`bash update-blacklist-part2.sh`
+</ul>
 <li>If you wish to udpate the whitelist, perform the following:
 <ul>
 <li>Set your directory to /opt/mosterho19-squidguard-workingdir
