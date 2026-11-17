@@ -1,0 +1,5 @@
+
+## for squidguard.conf
+src restricted_devices {
+    user laptop-user-1
+}
