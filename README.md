@@ -209,11 +209,20 @@ Confirm you are in the running container by checking your login.
 <li>build_cron_job.txt -- This contains various methods to create a CRON job or systemd service that will run the "update-blacklist.sh" script. 
 <ul>
 <li>View the "build_cron_job.txt"
-<li>If CRON is to run as root, CRON requires the "executable" flag set on chmod. Set the present working directory to /opt/mosterho19-squidguard-workingdir. 
+<li>To use one of the options to create a CRON job:
+<ul><li>If CRON is to run as root, CRON requires the "executable" flag set on chmod. 
+<li>Set the present working directory to /opt/mosterho19-squidguard-workingdir. 
 <li>Run the following:
 
 `sudo chmod 755 /opt/mosterho19-squidguard-workingdir/*.sh `
-<li>Use one of the options to create a CRON job or systemd service.
+
+<li>Copy and paste one of the three lines you would like to use to create the CRON job.
+</ul>
+<li>To create a systemd job:
+<ul><li>Open the build-blacklist-systemd-job.sh, 
+<li>change the "[Timer] / OnCalendar=Wed,Sat *-*-* 02:00:00" entry to dates and times of your choosing
+<li>Run "bash build-blacklist-systemd-job.sh" script
+</ul>
 </ul>
 <li>build-squid-image.sh -- Manually modify the Dockerfile for your requirements, then run this script. The image will be updated to the Docker.IO section.
 </ol>
