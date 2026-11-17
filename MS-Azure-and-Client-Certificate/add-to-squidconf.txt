@@ -1,0 +1,17 @@
+##  squid.conf 
+
+# Listen on port 3129 using TLS and require a valid certificate signed by your CA
+https_port 3129 tls-cert=/etc/squid/certs/server.crt tls-key=/etc/squid/certs/server.key clientca=/etc/squid/certs/ca.crt sslflags=VERIFY_CRL_ALL
+
+# Define an ACL that matches the Common Name (CN) of valid client certificates
+acl authorized_clients user_cert CN laptop-user-1
+# Alternatively, match by Organizational Unit (OU) if you issue many certs:
+# acl authorized_clients user_cert OU Engineering
+
+# Allow access only to clients presenting a matching certificate
+http_access allow authorized_clients
+http_access deny all
+
+# Pass traffic to SquidGuard for URL filtering
+url_rewrite_program /usr/bin/squidGuard -c /etc/squidguard/squidGuard.conf
+url_rewrite_children 5
