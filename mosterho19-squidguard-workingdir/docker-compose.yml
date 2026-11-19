@@ -1,7 +1,6 @@
 services:
   squidguard:
     image: mosterho19/squidguard
-    build: .
     container_name: squidguard
     restart: unless-stopped
     ports:
@@ -26,4 +25,3 @@ services:
       - ./squidguarderrors:/usr/local/apache2/htdocs
       - ./www:/usr/local/apache2/htdocs:ro
       - ./apache/pac.conf:/usr/local/apache2/conf/extra/pac.conf:ro
-    command: sh -c "sed -i 's/#LoadModule headers_module/LoadModule headers_module/' /usr/local/apache2/conf/httpd.conf && echo 'Include conf/extra/pac.conf' >> /usr/local/apache2/conf/httpd.conf && httpd-foreground"
