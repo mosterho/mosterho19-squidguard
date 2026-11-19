@@ -62,6 +62,7 @@ echo 'End of updates to system... If you received a message that you should rebo
 `
 sudo git clone -b Azure-certificates  https://github.com/mosterho/mosterho19-squidguard &&
 sudo cp -r mosterho19-squidguard/mosterho19-squidguard-workingdir/ /opt/ &&
+sudo cp -r mosterho19-squidguard/Azure-code/ /opt/ &&
 cd /opt/mosterho19-squidguard-workingdir
 `
 
