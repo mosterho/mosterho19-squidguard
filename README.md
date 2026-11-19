@@ -94,6 +94,9 @@ The results should look similar to this (as documentation is modified, the numbe
 	<li>directory "squidguarderrors" -- This is used by the httpd image. This contains a couple folders and an index.html file. The html file is used for issuing a warning message when attempting to display a blacklisted site.
 	<li>The .sh files can be customized to accomodate any changes you need. 
 	</ul>
+<li>If you're using certificates, run the following:
+
+`sudo bash build-generic-certificates.sh`
 </ol>
 
 ## Pull Docker images
