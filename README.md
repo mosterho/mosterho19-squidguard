@@ -96,7 +96,7 @@ The results should look similar to this (as documentation is modified, the numbe
 	</ul>
 <li>If you're using certificates, run the following:
 
-`sudo bash build-generic-certificates.sh`
+`sudo bash build-generic-certificates-v2.sh`
 </ol>
 
 ## Pull Docker images

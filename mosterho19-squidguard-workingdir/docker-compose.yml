@@ -25,5 +25,5 @@ services:
       - /etc/localtime:/etc/localtime:ro
       - ./squidguarderrors:/usr/local/apache2/htdocs
       - ./www:/usr/local/apache2/htdocs:ro
-      - ./apache-pac/pac.conf:/usr/local/apache2/conf/extra/pac.conf:ro
+      - ./apache/pac.conf:/usr/local/apache2/conf/extra/pac.conf:ro
     command: sh -c "sed -i 's/#LoadModule headers_module/LoadModule headers_module/' /usr/local/apache2/conf/httpd.conf && echo 'Include conf/extra/pac.conf' >> /usr/local/apache2/conf/httpd.conf && httpd-foreground"
