@@ -1,7 +1,7 @@
 services:
   squidguard:
-    build: ./squid
-    image: mosterho19/squidguard:mtls
+    build: .
+    image: mosterho19/squidguard
     container_name: squidguard
     restart: unless-stopped
     ports:
@@ -10,6 +10,7 @@ services:
     volumes:
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
+      - ./squid.conf:/etc/squid/squid.conf
       - ./squidGuard.conf:/etc/squidguard/squidGuard.conf
       - ./squidguard:/var/lib/squidguard
       - ./certs/rootCA.crt:/etc/squid/certs/rootCA.crt:ro
