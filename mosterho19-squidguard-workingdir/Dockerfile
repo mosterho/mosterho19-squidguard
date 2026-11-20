@@ -18,11 +18,6 @@ RUN mkdir -p /etc/squid/certs && \
     chown -R proxy:proxy /var/lib/squidguard /etc/squid/certs && \
     chmod 750 /etc/squid/certs
 
-#ENTRYPOINT ["squid"]
-#CMD ["-sNY"]
-#CMD ["squid", "-sNY"]
-
-
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod +x /usr/local/bin/entrypoint.sh
 
