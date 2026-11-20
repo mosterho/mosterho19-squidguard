@@ -1,4 +1,5 @@
 #!/bin/bash
 
-docker compose stop squidguard
-docker compose stop httpd
+docker compose down
+#docker compose stop squidguard
+#docker compose stop httpd
