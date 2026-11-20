@@ -14,3 +14,6 @@ sudo curl -I https://example.com   --proxy https://proxy.emergencyservicessoftwa
 
 ## GOOD (got failed to connect to proxy error since some certs are missing)
 sudo curl -I https://example.com   --proxy https://proxy.emergencyservicessoftware.net   --proxy-cacert ./certs/rootCA.crt
+
+## 
+sudo curl -sv -I https://doubleclick.net   --proxy https://proxy.emergencyservicessoftware.net   --proxy-cacert ./certs/rootCA.crt   --proxy-cert ./certs/test-client-01.crt   --proxy-key ./certs/test-client-01.key   --cacert ./certs/rootCA.crt

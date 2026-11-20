@@ -98,6 +98,7 @@ The results should look similar to this (as documentation is modified, the numbe
 
 ## Generate Self-signed Certificates
 <ol>
+<li>May need to add "127.0.0.1 proxy.emergencyservicessoftware.net" to /etc/hosts
 <li>Run the following:
 
 `sudo bash generate-self-certificates.sh`
