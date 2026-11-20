@@ -13,6 +13,7 @@ services:
       - ./squidGuard.conf:/etc/squidguard/squidGuard.conf
       - ./squidguard:/var/lib/squidguard
       - ./certificates:/etc/squid/certs
+
   httpd:
     image: httpd:latest
     container_name: httpd
@@ -25,3 +26,4 @@ services:
       - ./squidguarderrors:/usr/local/apache2/htdocs
       - ./www:/usr/local/apache2/htdocs:ro
       - ./apache/pac.conf:/usr/local/apache2/conf/extra/pac.conf:ro
+    command: sh -c "a2enmod headers && a2enconf pac && apache2ctl -D FOREGROUND"
