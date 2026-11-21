@@ -28,3 +28,9 @@ services:
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
       - ./squidguarderrors:/usr/local/apache2/htdocs
+    command: >
+      /bin/bash -c "
+      echo 'AddType application/x-ns-proxy-autoconfig .dat .pac' > /etc/apache2/conf-available/wpad.conf &&
+      a2enconf wpad &&
+      apache2ctl -D FOREGROUND
+      "
