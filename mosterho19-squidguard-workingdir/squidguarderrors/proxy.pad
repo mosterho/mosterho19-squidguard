@@ -1,0 +1,15 @@
+function FindProxyForURL(url, host) {
+	// using URL doesn't work  return "PROXY proxy.emergencyservicesindustrysoftware.com:3128; ";
+	// remember: this contains the IP addresses of the proxy, not DNS.
+	// return "PROXY [2606:8400:740:9e8c::7fa5:451f]:3128; PROXY 192.168.40.45:3128; DIRECT ";
+    // Bypass proxy for local/internal addresses
+    if (isPlainHostName(host) || shExpMatch(host, "*.emergencyservicessoftware.net") || isInNet(dnsResolve(host), "10.0.0.0", "255.0.0.0")) {
+        return "DIRECT";
+    }
+    // Send everything else to your Squid proxy
+    return "PROXY 192.168.40.40:3128";
+}
+
+function FindProxyForURL(url, host) {
+
+}
