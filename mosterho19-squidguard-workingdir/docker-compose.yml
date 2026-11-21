@@ -16,6 +16,7 @@ services:
       - ./certs/rootCA.crt:/etc/squid/certs/rootCA.crt:ro
       - ./certs/server.crt:/etc/squid/certs/server.crt:ro
       - ./certs/server.key:/etc/squid/certs/server.key:ro
+      - ./ssl_db:/var/spool/squid/ssl_db 
 
   httpd:
     image: httpd:latest
