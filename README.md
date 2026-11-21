@@ -23,6 +23,7 @@
 <li>Install Ubuntu server, latest updates, and Docker with additional packages... and will likely require a reboot.
 <li>Download the git repository to the sever.
 <li>Make any neccessary changes to files (e.g., squid.conf, squidguard.conf, etc.)
+<li>Generate certificates
 <li>Pull Docker images by running "sudo bash install-step-one.sh"
 <li>Setup Squid and Squidguard folders and files in /opt/mosterho19-squidguard-workingdir folder by running "sudo bash install-step-two.sh"
 <ul><li>See the "ISSUES" section if the wget download from either of two blacklist download sites don't work</li></ul>
@@ -60,7 +61,7 @@ echo 'End of updates to system... If you received a message that you should rebo
 <li>You should be in your home/(user) directory on the Ubuntu server. Run the following (include sudo!)
 
 `
-sudo git clone https://github.com/mosterho/mosterho19-squidguard &&
+sudo git clone -b certificates https://github.com/mosterho/mosterho19-squidguard &&
 sudo cp -r mosterho19-squidguard/mosterho19-squidguard-workingdir/ /opt/ &&
 cd /opt/mosterho19-squidguard-workingdir
 `
@@ -93,6 +94,14 @@ The results should look similar to this (as documentation is modified, the numbe
 	<li>directory "squidguarderrors" -- This is used by the httpd image. This contains a couple folders and an index.html file. The html file is used for issuing a warning message when attempting to display a blacklisted site.
 	<li>The .sh files can be customized to accomodate any changes you need. 
 	</ul>
+</ol>
+
+## Generate Self-signed Certificates
+<ol>
+<li>May need to add "127.0.0.1 proxy.emergencyservicessoftware.net" to /etc/hosts
+<li>Run the following:
+
+`sudo bash generate-self-certificates.sh`
 </ol>
 
 ## Pull Docker images
