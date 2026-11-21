@@ -1,16 +1,22 @@
 services:
   squidguard:
+    build: .
     image: mosterho19/squidguard
     container_name: squidguard
     restart: unless-stopped
     ports:
       - "3128:3128"
+      - "3129:3129"
     volumes:
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
       - ./squid.conf:/etc/squid/squid.conf
       - ./squidGuard.conf:/etc/squidguard/squidGuard.conf
       - ./squidguard:/var/lib/squidguard
+      - ./certs/rootCA.crt:/etc/squid/certs/rootCA.crt:ro
+      - ./certs/server.crt:/etc/squid/certs/server.crt:ro
+      - ./certs/server.key:/etc/squid/certs/server.key:ro
+      - ./ssl_db:/var/spool/squid/ssl_db 
 
   httpd:
     image: httpd:latest

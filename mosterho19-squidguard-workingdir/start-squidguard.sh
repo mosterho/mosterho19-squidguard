@@ -1,6 +1,10 @@
 #!/bin/bash
+
+docker compose up -d
+
 # To restart just the proxy
-docker compose restart squidguard
+#docker compose restart squidguard
 
 # To restart just the web server
-docker compose restart httpd
+#docker compose restart httpd
+
