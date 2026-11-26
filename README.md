@@ -60,7 +60,7 @@ echo 'End of updates to system... If you received a message that you should rebo
 <li>You should be in your home/(user) directory on the Ubuntu server. Run the following (include sudo!).
 
 `
-sudo git clone https://github.com/mosterho/mosterho19-squidguard &&
+sudo git clone -b wpad https://github.com/mosterho/mosterho19-squidguard &&
 sudo cp -r mosterho19-squidguard/mosterho19-squidguard-workingdir/ /opt/ &&
 cd /opt/mosterho19-squidguard-workingdir
 `
