@@ -17,8 +17,14 @@ services:
     container_name: httpd
     restart: unless-stopped
     ports:
-      - "8080:80"
+      - "80:80" # Changed from 8080:80 so browsers can find wpad.dat
     volumes:
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
       - ./squidguarderrors:/usr/local/apache2/htdocs
+      - ./wpad.conf:/usr/local/apache2/conf/extra/wpad.conf # Optional: for MIME type
+  command: >
+    /bin/sh -c "
+    echo 'AddType application/x-ns-proxy-autoconfig .dat .da .pac' >> /usr/local/apache2/conf/httpd.conf &&
+    httpd-foreground
+    " 
