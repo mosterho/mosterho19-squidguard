@@ -1,0 +1,25 @@
+######################################################################################################
+## To create a CRON job to update the blacklist, try one of the following:
+######################################################################################################
+##  Run crontab -e and add the line to the bottom of the file. 
+0 2 * * * (/opt/mosterho19-squidguard-workingdir/update-blacklist.sh && echo "$(date): Job completed successfully") >> /var/log/update-blacklist.log 2>&1
+
+## or run the following script in a terminal session:
+(sudo crontab -l 2>/dev/null; echo '0 2 * * WED,SAT (/opt/mosterho19-squidguard-workingdir/update-blacklist.sh && echo "$(date): Job completed successfully") >> /var/log/update-blacklist.log 2>&1') | sudo crontab -
+
+## or run the following in a terminal session to add a job in the /etc/cron.d folder
+echo '0 2 * * WED,SAT root (/opt/mosterho19-squidguard-workingdir/update-blacklist.sh && echo "$(date): Job completed successfully") >> /var/log/update-blacklist.log 2>&1' | sudo tee /etc/cron.d/squidguard-update > /dev/null
+
+
+######################################################################################################
+## If you want to create a systemd service rather than CRON job, 
+## first look at the build-blacklist-systemd-job.sh and change the 
+##   [Timer] / OnCalendar=Wed,Sat *-*-* 02:00:00
+## line... then run the following:
+######################################################################################################
+
+bash build-blacklist-systemd-job.sh
+
+##  Extra commands to know:
+# See when it last ran and when it runs next: systemctl list-timers squidguard-update.timer
+# Check logs with automatic timestamps: sudo journalctl -u squidguard-update.service
