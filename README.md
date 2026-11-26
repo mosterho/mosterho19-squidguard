@@ -138,25 +138,36 @@ The results should look similar to this (as documentation is modified, the numbe
 <li>Confirm that the containers are still up. Run the following:
 
 `sudo docker compose ps`
-<li>Run the following:
+
+<li>You can do any of the following to further confirm that squidguard is running:
+<ul> 
+<li>Within the bash shell, run the following:
+
+`sudo docker compose exec squidguard tail /var/log/squidguard/squidGuard.log`
+
+<li>Confirm the last line says "squidguard ready for requests"
+</ul>
+<li>You can also run the following by directly logging in to the docker container session. Run the following:
 
 `bash access-docker-container.sh` 
 Confirm you are in the running container by checking your login.
 <ul>
 <li>The login prompt should look similar to "root@d36c...:/#"... where "d36c..." is the containerID.
 </li>
-</ul>
 <li>Run the following:
 
 `tail /var/log/squidguard/squidGuard.log`
 <li>Confirm that the last line reads "squidguard ready for requests".
-<li>If you see several "db_open: permission denied", the issue is likely on the Ubuntu host. The db file build will likely create the folders and files with root as the owner.
+<li>Run any other Linux commands within the Docker session you wish (e.g., top, df)
+
+</ul>
+
+<li>If you choose to view the entire squidguard.log (nano /var/log/squidGuard/squidguard.log) you will likely see several errors at the top of the file, but when you are at the end you should see several success messages. If there was an issue, it is likely on the Ubuntu host. The db file build will likely create the folders and files with root as the owner.
 <ul><li>Exit the Docker terminal session. Change your current directory to /opt/mosterho19-squidguard-workingdir. Squidguard pulls files from the Ubuntu host. The blacklist download and DB build routines should have set the owners and permissions to the minimum required. Please double-check folder permissions as 755, files as 644, and owner/group as proxy:proxy in the "squidguard/db" directory, subdirectories and files.</li></ul>
 <li>The following screen capture shows what the log should look like.
 
 ![Successfully running squidguard](Documentation/Docker_squidguard_running_ok.jpg)
 
-<li>Run any other Linux commands within the Docker session you wish (e.g., top)
 </ol>
 
 ## Open a browser and try it ;-) 

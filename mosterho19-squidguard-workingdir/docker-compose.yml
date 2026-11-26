@@ -23,8 +23,5 @@ services:
       - /etc/localtime:/etc/localtime:ro
       - ./squidguarderrors:/usr/local/apache2/htdocs
       - ./wpad.conf:/usr/local/apache2/conf/extra/wpad.conf # Optional: for MIME type
-  command: >
-    /bin/sh -c "
-    echo 'AddType application/x-ns-proxy-autoconfig .dat .da .pac' >> /usr/local/apache2/conf/httpd.conf &&
-    httpd-foreground
-    " 
+    command: >
+      /bin/sh -c " echo 'AddType application/x-ns-proxy-autoconfig .dat .da .pac' >> /usr/local/apache2/conf/httpd.conf && httpd-foreground " 
