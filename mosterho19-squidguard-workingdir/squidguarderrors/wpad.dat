@@ -8,6 +8,5 @@ function FindProxyForURL(url, host) {
         return "DIRECT";
     }
     // Send everything else to your Squid proxy
-    return "PROXY proxy.emergencyservicesindustrysoftware.net:3128";
+    return "PROXY proxy.emergencyservicessoftware.net:3128";
 }
-
