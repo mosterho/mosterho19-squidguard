@@ -19,9 +19,11 @@ services:
       - ./squidguard:/var/lib/squidguard
     entrypoint: >
       /bin/sh -c '
+      rm -f /run/squid.pid /var/run/squid.pid /var/run/squid/*.pid &&
       sed -e "s|\$${WPAD_HOST}|$${WPAD_HOST}|g" -e "s|\$${WPAD_PORT}|$${WPAD_PORT}|g" /etc/squidguard/squidGuard.conf.template > /etc/squidguard/squidGuard.conf &&
       ln -sf /etc/squidguard/squidGuard.conf /etc/squidguard/squidguard.conf &&
       exec squid -N -d 1'
+
 
   httpd:
     image: httpd:latest
