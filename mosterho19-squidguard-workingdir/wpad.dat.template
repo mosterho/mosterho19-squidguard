@@ -21,4 +21,3 @@ function FindProxyForURL(url, host) {
     // 3. Send everything else to Squid
     return "PROXY ${PROXY_HOST}:${PROXY_PORT}";
 }
-EOF
