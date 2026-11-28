@@ -4,7 +4,12 @@ services:
     container_name: squidguard
     restart: unless-stopped
     ports:
-      - "3128:3128"
+      - "${PROXY_PORT:-3128}:3128"
+    environment:
+      - WPAD_HOST=${WPAD_HOST:-wpad}
+      - WPAD_PORT=${WPAD_PORT:-80}
+      - PROXY_HOST=${PROXY_HOST:-${WPAD_HOST:-wpad}}
+      - PROXY_PORT=${PROXY_PORT:-3128}
     volumes:
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
@@ -17,7 +22,12 @@ services:
     container_name: httpd
     restart: unless-stopped
     ports:
-      - "80:80" # Changed from 8080:80 so browsers can find wpad.dat
+      - "${WPAD_PORT:-80}:80" # Changed from 8080:80 so browsers can find wpad.dat
+    environment:
+      - WPAD_HOST=${WPAD_HOST:-wpad}
+      - WPAD_PORT=${WPAD_PORT:-80}
+      - PROXY_HOST=${PROXY_HOST:-${WPAD_HOST:-wpad}}
+      - PROXY_PORT=${PROXY_PORT:-3128}
     volumes:
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
