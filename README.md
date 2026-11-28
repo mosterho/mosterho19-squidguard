@@ -21,9 +21,10 @@
 ## Quick Start Install Guide
 <ol>
 <li>Install Ubuntu server, latest updates, and Docker with additional packages... and will likely require a reboot.
-<li>Download the git repository to the sever.
-<li>Make any neccessary changes to files (e.g., squid.conf, squidguard.conf, etc.)
-<li>Pull Docker images by running "sudo bash install-step-one.sh"
+<li>Ensure your DNS/BIND entries are setup correctly (new A/CNAME records, etc.)
+<li>Download the git repository to the server.
+<li>Make any neccessary changes to files (e.g., squid.conf, squidguard.conf, etc.) 
+<li>Pull Docker images by running "sudo bash install-step-one.sh" (this will update /etc/hosts based on prompts)
 <li>Setup Squid and Squidguard by running "sudo bash install-step-two.sh"
 <ul><li>See the "ISSUES" section if the wget download from either of two blacklist download sites don't work</li></ul>
 <li>Confirm squid, squidguard, and httpd are running in the Docker session.

@@ -3,7 +3,7 @@
 echo "This program will perform the first step to install mosterho19/squidguard."
 
 # Dynamically resolve the directory where this script lives
-PROJECT_DIR="$(cd "$(dirname "${BASH_SOURCE}")" && pwd)"
+PROJECT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 cd "$PROJECT_DIR" || exit 1
 
 while true; do
@@ -11,17 +11,32 @@ while true; do
 
     case "$y_n" in
     [Yy]*)
-        read -p "Enter your WPAD/Proxy hostname or IP [default: wpad.yourdomain.local]: " input_host
-        WPAD_HOST="${input_host:-wpad.yourdomain.local}"
+        read -p "Enter your local domain name [default: yourdomain.local]: " input_domain
+        DOMAIN_NAME="${input_domain:-yourdomain.local}"
+
+        read -p "Enter your WPAD hostname or IP [default: wpad.${DOMAIN_NAME}]: " input_wpad
+        WPAD_HOST="${input_wpad:-wpad.${DOMAIN_NAME}}"
+
+        read -p "Enter your Squid Proxy hostname or IP [default: proxy.${DOMAIN_NAME}]: " input_proxy
+        PROXY_HOST="${input_proxy:-proxy.${DOMAIN_NAME}}"
+
+        # Update /etc/hosts with FQDN and short hostname
+        SHORT_HOST="$(hostname -s)"
+        FQDN="${SHORT_HOST}.${DOMAIN_NAME}"
+        echo "Updating /etc/hosts for ${FQDN}..."
+        if grep -qE "^127\.0\.1\.1\s+" /etc/hosts; then
+            sudo sed -i "s/^127\.0\.1\.1\s.*/127.0.1.1\t${FQDN} ${SHORT_HOST}/" /etc/hosts
+        else
+            echo -e "127.0.1.1\t${FQDN} ${SHORT_HOST}" | sudo tee -a /etc/hosts > /dev/null
+        fi
 
         echo "Creating .env file in $PROJECT_DIR..."
         cat <<EOF > .env
-# Primary hostname or IP for both WPAD and Proxy (e.g., wpad.yourdomain.local or 192.168.1.50)
+# Domain and host configuration for WPAD and Squid Proxy
+DOMAIN_NAME=${DOMAIN_NAME}
 WPAD_HOST=${WPAD_HOST}
 WPAD_PORT=80
-
-# Optional: Only uncomment if your Squid proxy runs on a different host/IP than WPAD
-# PROXY_HOST=proxy.yourdomain.local
+PROXY_HOST=${PROXY_HOST}
 PROXY_PORT=3128
 EOF
 
@@ -37,7 +52,7 @@ EOF
         sudo docker compose create squidguard httpd
 
         sudo docker compose ps -a
-        echo "Setup complete! Review .env if you need to adjust ports, then start the stack."
+        echo "Setup complete! Review .env if you need to adjust ports, then run install-step-two.sh."
         break
         ;;
     [Nn]*)
